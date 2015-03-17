@@ -1,0 +1,51 @@
+*{ font-family: Verdana, Geneva, sans-serif }
+
+.centered-content {
+    max-width: 980px;
+    margin: 40px auto;
+    font-size: 0.925em;
+    color: gray;
+}
+
+.floatRight { float: right; }
+.centerText { text-align: center; }
+
+.topMenu {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.job-ad {
+    margin-top: 15px;
+}
+
+.job-splitter {
+    text-align: center;
+}
+
+.totalJobsHeadline { margin-bottom: 30px; }
+
+.black { color: #000; }
+
+.group { white-space : nowrap; }
+
+a:link {
+    color: #2562dc;
+    text-decoration: none;
+}
+
+a:visited { color: #2562dc; }
+
+a:hover { color: #FF00FF; }
+
+a:active { }
+
+ul li {
+    margin-top:15px;
+}
+
+ol li {
+    margin-top: 12px;
+}
+
+.totalJobsFooter { margin-top: 25px; }

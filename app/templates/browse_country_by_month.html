@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body_content %}
+
+<div class="pure-u-1-1">
+  <div class="totalJobsHeadline">
+    <b>{{ jobsNo }}</b> total jobs in {{ currentMonth }} {{ year }}
+  </div>
+
+  <div>
+    <ul>
+      {% for e in totalRank %}
+      <li> 
+	<b>{{ e[0] }}</b> jobs in 
+	{% for country in e[1:] %} 
+	<span class="group">
+	  [ <b>
+	    <a href="/country/{{ year }}/{{ month }}/{{ country }}" 
+	       target="_blank">{{ country }}
+            </a>
+	  </b> ]
+	</span>
+	{% endfor %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

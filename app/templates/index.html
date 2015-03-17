@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block body_content %}
+
+<div class="pure-u-1-3">
+  <p class="black"><b>top cities - March 2015</b></p>
+  <ol>
+    {% for city in lastRank %}
+    <li>
+      <a href="/city/{{lastYear}}/{{lastMonth}}/{{city[1]}}">
+	{{ city[1] }}</a> ({{ city[0] }})
+    </li>
+    {% endfor %}
+  </ol>
+  <p><b><a href="/city/{{lastYear}}/{{lastMonth}}">[ view all ]</a></b></p>
+</div>
+
+<div class="pure-u-1-3">
+  <p class="black"><b>top countries - March 2015</b></p>
+  <ol>
+    {% for country in lastRankCountry %}
+    <li>
+      <a href="/country/{{lastYear}}/{{lastMonth}}/{{country[1]}}">
+	{{ country[1] }}</a> ({{ country[0] }})
+    </li>
+    {% endfor %}
+  </ol>
+  <p><b><a href="/country/{{lastYear}}/{{lastMonth}}">[ view all ]</b></a></p>
+</div>
+
+
+<div class="pure-u-1-3">
+  <p class="black">top cities - all time</p>
+  <ol>
+    {% for city in topCities %}
+    <li> 
+      {{ city[1] }} ({{ city[0]}})
+    </li>
+    {% endfor %}
+  </ol>
+  <p><a href="/all/cities">[ view all ]</a></p>
+</div>
+
+<div class="pure-u-1-1 totalJobsFooter">
+  <p class="centerText">{{totalJobs}} jobs indexed so far</p>
+</div>
+
+{% endblock %}

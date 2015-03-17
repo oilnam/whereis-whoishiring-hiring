@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_content %}
+
+<div class="pure-u-1-1">
+  <div class="totalJobsHeadline">
+    <p>All-time cities by #jobs</p>
+  </div>
+
+  <div>
+    <ol>
+      {% for c in allCities %}
+      <li> {{ c[1] }} ({{ c[0] }}) </li>
+      {% endfor %}
+    </ol>
+  </div>
+
+{% endblock %}

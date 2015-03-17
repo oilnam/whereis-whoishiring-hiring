@@ -1,0 +1,8 @@
+*#
+*.pyc
+*.db
+env
+.DS_Store
+debug-*
+build-DB/wiki.html
+build-DB/hn-pages/*
