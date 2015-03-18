@@ -25,10 +25,20 @@ UPDATE job
 SET location = 173
 WHERE location = 1024;
 
+/* makes NEW YORK point to New York City */
+UPDATE job
+SET location = 173
+WHERE location = 1041;
+
 /* makes SF point to San Francisco */
 UPDATE job
 SET location = 24
 WHERE location = 971;
+
+/* makes SAN FRANCISCO point to San Francisco */
+UPDATE job
+SET location = 24
+WHERE location = 1040;
 
 /* makes Delhi point to New Delhi */
 UPDATE job
@@ -39,6 +49,26 @@ WHERE location = 960;
 UPDATE job
 SET location = 1005
 WHERE location = 1006;
+
+/* makes St Paul point to Saint Paul */
+UPDATE job
+SET location = 1029
+WHERE location = 1028;	
+
+/* makes Milano point to Milan */
+UPDATE job
+SET location = 455
+WHERE location = 1036;
+
+/* makes LONDON point to London */
+UPDATE job
+SET location = 397
+WHERE location = 1039;
+
+/* makes SEATTLE point to Seattle */
+UPDATE job
+SET location = 25
+WHERE location = 1042;
 
 /* sad but true in tech lol */
 UPDATE city
