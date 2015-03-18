@@ -81,6 +81,14 @@ for i in extra:
     c = City(i[0], i[1])
     db.session.add(c)
 
+# handling remote jobs
+remote = [(u'REMOTE', u'REMOTE'),
+          (u'NO REMOTE', u'DELETE_ME'), (u'REMOTE no', u'DELETE_ME')]
+
+for r in remote:
+    c = City(r[0], r[1])
+    db.session.add(c)
+
 db.session.commit()
 db.session.close()
 
