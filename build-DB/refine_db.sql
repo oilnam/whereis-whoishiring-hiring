@@ -20,6 +20,11 @@ UPDATE job
 SET location = 173
 WHERE location = 1007;
 
+/* makes Brooklyn, NY point to New York City */
+UPDATE job
+SET location = 173
+WHERE location = 1024;
+
 /* makes SF point to San Francisco */
 UPDATE job
 SET location = 24

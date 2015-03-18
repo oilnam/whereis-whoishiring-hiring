@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup as bs
 import re
 import sys
 import os
+from string import capwords
 
 # this a bit hackeryish. Should I rewrite everything in plain SQL?
 dir = os.path.join(os.path.dirname(__file__), "..")
@@ -9,14 +10,27 @@ sys.path.append(dir)
 from app import db
 from app.models import City, Job
 
-def importComments(_fileList, _month, _year):
+
+def monthify(s):
+    m = { u'January':1, u'February':2, u'March':3, u'April':4,
+          u'May':5, u'June':6, u'July':7, u'August':8,
+          u'September':9, u'October':10, u'November':11, u'December':12}
+    return m[capwords(s)]
+
+
+def importComments(_fileList):
 
     dd = { city : id for (city, id) in db.session.query(City.name, City.id).all() }
 
-    s = bs(open(_fileList))
+    s = bs(open(os.path.join('hn-pages', _fileList)))
+    t = s.title.get_text()
+    title = t[t.index('(')+1:t.index(')')].split(' ')
+    month = monthify(title[0])
+    year = title[1]
+
     comments = s.find_all('span', class_ = 'comment')
 
-    with open('hn-pages/debug-{0}-{1}.txt'.format(_month, _year), 'w') as f:
+    with open('hn-pages/debug-{0}-{1}.txt'.format(month, year), 'w') as f:
         for c in comments:
             plain = c.get_text()
             found_flag = False
@@ -25,7 +39,7 @@ def importComments(_fileList, _month, _year):
                 if position != -1:
                     found_flag = True
                     if re.match(city + '([^a-z]|$)', plain[position:]):
-                        newJob = Job(unicode(c), _month, _year, dd[city])
+                        newJob = Job(unicode(c), month, year, dd[city])
                         db.session.add(newJob)
                     else:
                         f.write('--DITCHED BY REGEX--\n')
@@ -41,11 +55,12 @@ def importComments(_fileList, _month, _year):
         db.session.close()
 
 
-importComments('hn-pages/3-15.html', 3, 2015)
-importComments('hn-pages/2-15.html', 2, 2015)
-importComments('hn-pages/1-15.html', 1, 2015)
-importComments('hn-pages/12-14.html', 12, 2014)
-importComments('hn-pages/11-14.html', 11, 2014)
+def main():
+
+    for f in os.listdir('hn-pages'):
+        if f.endswith('.html'): 
+            importComments(f)
 
 
-
+if __name__== "__main__":
+    main()

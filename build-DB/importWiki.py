@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup as bs
 from sqlalchemy import update
-import requests
 import sys
 import os
 # this is a bit hackeryish. Should I rewrite everything in plain SQL?
@@ -9,7 +8,6 @@ sys.path.append(dir)
 from app import db
 from app.models import City
 
-# s = bs(requests.get('http://en.wikipedia.org/wiki/List_of_cities_by_longitude').text)
 s = bs(open('wiki.html'))
 
 table = s.find('table', class_ = 'wikitable')
@@ -75,18 +73,19 @@ extra = [
     (u'Ann Arbor', u'United States'), (u'Newark', u'United States'),
     (u'New Haven', u'United States'), (u'Madison', u'United States'),
     (u'Bellingham', u'United States'), (u'Padua', u'Italy'),
-    (u'Padova', u'Italy'), (u'Manhattan', u'United States')]
+    (u'Padova', u'Italy'), (u'Manhattan', u'United States'),
+    (u'REMOTE', u'REMOTE'), (u'NO REMOTE', u'DELETE_ME'),
+    (u'REMOTE no', u'DELETE_ME'), (u'Poznan', u'Poland'),
+    (u'Bellevue, WA', u'United States'), (u'Hillsboro', u'United States'),
+    (u'Brighton', u'United Kingdom'), (u'Malibu', u'United States'),
+    (u'Somerville', u'United States'), (u'Allahabad', u'India'),
+    (u'Hawthorne', u'United States'), (u'Ventura, CA', u'United States'),
+    (u'Reading, UK', u'United Kingdom'), (u'Chantilly', u'United States'),
+    (u'Dayton', u'United States'), (u'Eindhoven', u'Netherlands'),
+    (u'Brooklyn, NY', u'United States')]
 
 for i in extra:
     c = City(i[0], i[1])
-    db.session.add(c)
-
-# handling remote jobs
-remote = [(u'REMOTE', u'REMOTE'),
-          (u'NO REMOTE', u'DELETE_ME'), (u'REMOTE no', u'DELETE_ME')]
-
-for r in remote:
-    c = City(r[0], r[1])
     db.session.add(c)
 
 db.session.commit()
