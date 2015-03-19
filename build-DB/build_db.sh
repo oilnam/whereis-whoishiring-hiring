@@ -31,7 +31,11 @@ function download_pages {
 #download_pages
 
 # build the db
+echo
 echo "Building the db; this will take a little while..."
+echo
+echo "When it's ready, you can check for false postives toying around with falsePositives.py"
+
 rm -f database-full.db
 rm -f ../app.db
 
