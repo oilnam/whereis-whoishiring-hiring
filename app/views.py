@@ -28,7 +28,6 @@ def index():
                       group_by(City.country).\
                       order_by(desc('noJobs')).limit(12)
 
-
     topCities = db.session.\
                 query(func.count(Job.description).label('noJobs'), City.name).\
                 join(City).\
@@ -47,10 +46,6 @@ def index():
 
 @app.route('/city/<year>/<month>')
 def browse_cities_by_month(year = 0, month = 0):
-
-    # TODO uh?
-    if year == 0 or month == 0:
-        return flask.redirect(flask.url_for('index'))
 
     if int(month) not in range(1,13):
         return flask.redirect(flask.url_for('index'))
@@ -137,3 +132,16 @@ def all_cities():
     return flask.render_template('all_cities.html',
                                  title = 'all cities',
                                  allCities = allCities)
+
+@app.route('/all/countries')
+def all_countries():
+
+    allCountries = db.session.\
+                   query(func.count(Job.description).label('noJobs'), City.country).\
+                   join(City).\
+                   group_by(City.country).\
+                   order_by(desc('noJobs')).all()
+
+    return flask.render_template('all_countries.html',
+                                 title = 'all countries',
+                                 allCountries = allCountries)
