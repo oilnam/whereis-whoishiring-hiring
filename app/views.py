@@ -3,6 +3,7 @@ import flask
 from sqlalchemy import func, desc
 from models import City, Job
 from helpers import magic, mapMonths
+from errors import not_found_error, internal_error
 
 @app.route('/')
 @app.route('/index')

@@ -54,3 +54,7 @@ ol li {
 }
 
 .totalJobsFooter { margin-top: 25px; }
+
+.errorMessage {
+    padding-top: 70px;
+}
