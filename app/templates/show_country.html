@@ -9,7 +9,8 @@
 {% for j in jobs %}
 <div class="pure-u-1 job-ad">
   <p class="job-splitter"> *** </p>
-  {{ j[0]|safe }}
+  <!-- the comment that follows has id : {{ j.id }} -->
+  {{ j.description|safe }}
 </div>
 {% endfor %}
 

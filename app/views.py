@@ -1,5 +1,5 @@
 from app import app, db
-import flask
+from flask import render_template, redirect, url_for
 from sqlalchemy import func, desc
 from models import City, Job
 from helpers import magic, mapMonths
@@ -35,21 +35,21 @@ def index():
                 group_by(City.name).\
                 order_by(desc('noJobs')).limit(12)
 
-    return flask.render_template('index.html',
-                                 title = 'who is hiring?',
-                                 topCities = topCities,
-                                 lastMonth = lastMonth,
-                                 lastYear = lastYear,
-                                 lastRank = lastRank,
-                                 lastRankCountry = lastRankCountry,
-                                 totalJobs = totalJobs)
+    return render_template('index.html',
+                           title = 'where is who is hiring? hiring?',
+                           topCities = topCities,
+                           lastMonth = lastMonth,
+                           lastYear = lastYear,
+                           lastRank = lastRank,
+                           lastRankCountry = lastRankCountry,
+                           totalJobs = totalJobs)
 
 
 @app.route('/city/<year>/<month>')
 def browse_cities_by_month(year = 0, month = 0):
 
     if int(month) not in range(1,13):
-        return flask.redirect(flask.url_for('index'))
+        return redirect(url_for('index'))
 
     totalRank = db.session.\
                 query(func.count(Job.location).label('noJobs'), City.name).\
@@ -61,19 +61,19 @@ def browse_cities_by_month(year = 0, month = 0):
 
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
-    return flask.render_template('browse_city_by_month.html',
-                                 title = 'who is hiring?',
-                                 totalRank = magic(totalRank, []),
-                                 jobsNo = jobsNo,
-                                 currentMonth = mapMonths(int(month)),
-                                 year = year, month = month)
+    return render_template('browse_city_by_month.html',
+                           title = 'wiwihi? | {0}-{1}'.format(month, year),
+                           totalRank = magic(totalRank, []),
+                           jobsNo = jobsNo,
+                           currentMonth = mapMonths(int(month)),
+                           year = year, month = month)
 
 
 @app.route('/country/<year>/<month>')
 def browse_countries_by_month(year = 0, month = 0):
 
     if int(month) not in range(1,13):
-        return flask.redirect(flask.url_for('index'))
+        return redirect(url_for('index'))
 
     totalRank = db.session.\
                 query(func.count(Job.location).label('noJobs'), City.country).\
@@ -85,40 +85,42 @@ def browse_countries_by_month(year = 0, month = 0):
 
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
-    return flask.render_template('browse_country_by_month.html',
-                                 title = 'who is hiring?',
-                                 totalRank = magic(totalRank, []),
-                                 jobsNo = jobsNo,
-                                 currentMonth = mapMonths(int(month)),
-                                 year = year, month = month)
+    return render_template('browse_country_by_month.html',
+                           title = 'wiwihi? | {0}-{1}'.format(month, year),
+                           totalRank = magic(totalRank, []),
+                           jobsNo = jobsNo,
+                           currentMonth = mapMonths(int(month)),
+                           year = year, month = month)
 
 
 @app.route('/city/<year>/<month>/<city>')
-def browse_by_city(year, month, city):
+def show_by_city(year, month, city):
 
-    jobs = db.session.query(Job.description).join(City).\
+    jobs = db.session.query(Job.description, Job.id).join(City).\
            filter(City.name == city).\
            filter(Job.month == month).\
            filter(Job.year == year).all()
 
-    return flask.render_template('show_city.html',
-                                 title = city, city = city,
-                                 jobs = jobs, year = year,
-                                 month = mapMonths(int(month)))
+    return render_template('show_city.html',
+                           title = 'wiwihi? | {0} | {1}-{2}'.format(city, month, year), 
+                           city = city,
+                           jobs = jobs, year = year,
+                           month = mapMonths(int(month)))
 
 
 @app.route('/country/<year>/<month>/<country>')
-def browse_by_country(year, month, country):
+def show_by_country(year, month, country):
 
-    jobs = db.session.query(Job.description).join(City).\
+    jobs = db.session.query(Job.description, Job.id).join(City).\
            filter(City.country == country).\
            filter(Job.month == month).\
            filter(Job.year == year).all()
 
-    return flask.render_template('show_country.html',
-                                 title = country, country = country,
-                                 jobs = jobs, year = year,
-                                 month = mapMonths(int(month)))
+    return render_template('show_country.html',
+                           title = 'wiwihi? | {0} | {1}-{2}'.format(country, month, year), 
+                           country = country,
+                           jobs = jobs, year = year,
+                           month = mapMonths(int(month)))
 
 
 @app.route('/all/cities')
@@ -130,9 +132,9 @@ def all_cities():
                 group_by(City.name).\
                 order_by(desc('noJobs')).all()
 
-    return flask.render_template('all_cities.html',
-                                 title = 'all cities',
-                                 allCities = allCities)
+    return render_template('all_cities.html',
+                           title = 'wiwihi? | all cities',
+                           allCities = allCities)
 
 @app.route('/all/countries')
 def all_countries():
@@ -143,6 +145,6 @@ def all_countries():
                    group_by(City.country).\
                    order_by(desc('noJobs')).all()
 
-    return flask.render_template('all_countries.html',
-                                 title = 'all countries',
-                                 allCountries = allCountries)
+    return render_template('all_countries.html',
+                           title = 'wiwihi? | all countries',
+                           allCountries = allCountries)
