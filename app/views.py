@@ -7,6 +7,7 @@ from errors import not_found_error, internal_error
 
 @app.route('/')
 @app.route('/index')
+@app.cache.cached(timeout=500)
 def index():
 
     lastMonth = 3
