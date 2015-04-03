@@ -23,6 +23,9 @@
 
 .job-splitter {
     text-align: center;
+    font-weight: bold;
+    color: #2562dc;
+    padding-bottom: 10px;
 }
 
 .totalJobsHeadline { margin-bottom: 30px; }

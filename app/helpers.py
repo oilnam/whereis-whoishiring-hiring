@@ -13,7 +13,7 @@ def magic(s, l = [], top = 0, pos = 0):
     return magic(s[1:], l, top, pos)
 
 
-def mapMonths(n):
+def mapMonthToName(n):
     m = { 1 : 'January', 2 : 'February', 3 : 'March',
           4 : 'April', 5 : 'May', 6 : 'June',
           7 : 'July', 8 : 'August', 9 : 'September',

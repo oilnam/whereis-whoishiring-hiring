@@ -2,7 +2,7 @@
 {% block body_content %}
 
 <div class="pure-u-1-3">
-  <p class="black"><b>top cities - March 2015</b></p>
+  <p class="black"><b>top cities - {{lastMonthName}} {{lastYear}}</b></p>
   <ol>
     {% for city in lastRank %}
     <li>
@@ -11,11 +11,11 @@
     </li>
     {% endfor %}
   </ol>
-  <p><b><a href="/city/{{lastYear}}/{{lastMonth}}">[ view all ]</a></b></p>
+  <p><b><a href="/city/{{lastYear}}/{{lastMonth}}">[ view all cities ]</a></b></p>
 </div>
 
 <div class="pure-u-1-3">
-  <p class="black"><b>top countries - March 2015</b></p>
+  <p class="black"><b>top countries - {{lastMonthName}} {{lastYear}}</b></p>
   <ol>
     {% for country in lastRankCountry %}
     <li>
@@ -24,7 +24,8 @@
     </li>
     {% endfor %}
   </ol>
-  <p><b><a href="/country/{{lastYear}}/{{lastMonth}}">[ view all ]</b></a></p>
+  <p><b><a href="/country/{{lastYear}}/{{lastMonth}}">[ view all
+  countries ]</b></a></p>
 </div>
 
 

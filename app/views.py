@@ -2,31 +2,32 @@ from app import app, db
 from flask import render_template, redirect, url_for
 from sqlalchemy import func, desc
 from models import City, Job
-from helpers import magic, mapMonths
+from helpers import magic, mapMonthToName
 from errors import not_found_error, internal_error
 
 @app.route('/')
 @app.route('/index')
-@app.cache.cached(timeout=500)
+#@app.cache.cached(timeout=500)
 def index():
 
-    lastMonth = 3
+    # harcoded variables; to be replaced when auto-update will be ready
+    lastMonth = 4
     lastYear = 2015
     totalJobs = Job.query.count()
 
     lastRank = db.session.\
                query(func.count(Job.description).label('noJobs'), City.name).\
                join(City).\
-               filter(Job.month == '3').\
-               filter(Job.year == '2015').\
+               filter(Job.month == lastMonth).\
+               filter(Job.year == lastYear).\
                group_by(City.name).\
                order_by(desc('noJobs')).limit(12)
 
     lastRankCountry = db.session.\
                       query(func.count(Job.description).label('noJobs'), City.country).\
                       join(City).\
-                      filter(Job.month == '3').\
-                      filter(Job.year == '2015').\
+                      filter(Job.month == lastMonth).\
+                      filter(Job.year == lastYear).\
                       group_by(City.country).\
                       order_by(desc('noJobs')).limit(12)
 
@@ -40,6 +41,7 @@ def index():
                            title = 'where is who is hiring? hiring?',
                            topCities = topCities,
                            lastMonth = lastMonth,
+                           lastMonthName = mapMonthToName(lastMonth),
                            lastYear = lastYear,
                            lastRank = lastRank,
                            lastRankCountry = lastRankCountry,
@@ -66,7 +68,7 @@ def browse_cities_by_month(year = 0, month = 0):
                            title = 'wiwihi? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
-                           currentMonth = mapMonths(int(month)),
+                           currentMonth = mapMonthToName(int(month)),
                            year = year, month = month)
 
 
@@ -90,7 +92,7 @@ def browse_countries_by_month(year = 0, month = 0):
                            title = 'wiwihi? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
-                           currentMonth = mapMonths(int(month)),
+                           currentMonth = mapMonthToName(int(month)),
                            year = year, month = month)
 
 
@@ -106,7 +108,7 @@ def show_by_city(year, month, city):
                            title = 'wiwihi? | {0} | {1}-{2}'.format(city, month, year), 
                            city = city,
                            jobs = jobs, year = year,
-                           month = mapMonths(int(month)))
+                           month = mapMonthToName(int(month)))
 
 
 @app.route('/country/<year>/<month>/<country>')
@@ -121,7 +123,7 @@ def show_by_country(year, month, country):
                            title = 'wiwihi? | {0} | {1}-{2}'.format(country, month, year), 
                            country = country,
                            jobs = jobs, year = year,
-                           month = mapMonths(int(month)))
+                           month = mapMonthToName(int(month)))
 
 
 @app.route('/all/cities')

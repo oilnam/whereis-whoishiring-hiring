@@ -92,7 +92,11 @@ extra = [
     ('Foster City', 'United States'), ('LONDON', 'United Kingdom'),
     ('SAN FRANCISCO', 'United States'), ('NEW YORK', 'United States'),
     ('SEATTLE', 'United States'), ('El Segundo', 'United States'),
-    ('New Hope', 'United States'), ('Littleton', 'United States')]
+    ('New Hope', 'United States'), ('Littleton', 'United States'),
+    ('Colorado Springs', 'United States'), ('Southbury', 'United States'),
+    ('Evanston', 'United States'), ('San Luis Obispo', 'United States'),
+    ('Medford, MA', 'United States'), ('Lawrence, KS', 'United States'),
+    ('Melk', 'Austria'), ('Markham', 'Canada')]
 
 for i in extra:
     c = City(unicode(i[0]), unicode(i[1]))

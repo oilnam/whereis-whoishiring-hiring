@@ -30,7 +30,7 @@ def importComments(_fileList):
 
     comments = s.find_all('span', class_ = 'comment')
 
-    with open('hn-pages/debug-{0}-{1}.txt'.format(month, year), 'w') as f:
+    with open('hn-pages/debug-{0}-{1}.txt'.format(year, month), 'w') as f:
         for c in comments:
             plain = c.get_text()
             found_flag = False
@@ -59,6 +59,7 @@ def main():
 
     for f in os.listdir('hn-pages'):
         if f.endswith('.html'): 
+            print 'processing ' + str(f)
             importComments(f)
 
 
