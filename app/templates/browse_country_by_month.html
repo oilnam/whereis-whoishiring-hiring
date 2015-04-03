@@ -4,20 +4,20 @@
 <div class="pure-u-1-1">
   <div class="totalJobsHeadline">
     <b>{{ jobsNo }}</b> total jobs in {{ currentMonth }} {{ year }}
-    - [browse by <a href="/city/{{year}}/{{month}}">city</a>]
+    - <b>[<a href="/city/{{year}}/{{month}}"> browse by city </a>]</b>
   </div>
 
   <div>
     <ul>
       {% for e in totalRank %}
       <li> 
-	<b>{{ e[0] }}</b> jobs in
+	{{ e[0] }} jobs in
 	{% for country in e[1:] %} 
 	<span class="group">
-	  [ <b>
+	  [
 	    <a href="/country/{{ year }}/{{ month }}/{{ country }}">{{ country }}
             </a>
-	  </b> ]
+	   ]
 	</span>
 	{% endfor %}
       </li>
