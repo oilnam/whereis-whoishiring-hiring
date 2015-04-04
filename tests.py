@@ -33,6 +33,10 @@ class DBConsistency(unittest.TestCase):
         assert City.query.filter_by(name = u'REMOTE').first().id == 1008
         assert City.query.filter_by(name = u'NO REMOTE').first().id == 1009
         assert City.query.filter_by(name = u'REMOTE no').first().id == 1010
+        assert City.query.filter_by(name = u'Remote').first().id == 1058
+        assert City.query.filter_by(name = u'Remote not').first().id == 1059
+        assert City.query.filter_by(name = u'No Remote').first().id == 1060
+        assert City.query.filter_by(name = u'NY, NY').first().id == 1061
 
 
 if __name__ == '__main__':

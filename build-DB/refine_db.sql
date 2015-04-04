@@ -18,6 +18,9 @@ UPDATE job SET location = 173 WHERE location = 1024;
 /* makes NEW YORK point to New York City */
 UPDATE job SET location = 173 WHERE location = 1041;
 
+/* makes NY, NY point to New York City */
+UPDATE job SET location = 173 WHERE location = 1061;
+
 /* makes SF point to San Francisco */
 UPDATE job SET location = 24 WHERE location = 971;
 
@@ -50,6 +53,9 @@ UPDATE city SET country = 'Hong Kong' WHERE country = 'HK';
 UPDATE city SET country = 'China' WHERE country LIKE '%Republic of China';
 
 
+/* merge Remote with REMOTE */
+UPDATE job SET location = 1008 WHERE location = 1058;
+
 /* deleting <NO REMOTE>, <REMOTE no> jobs and
    <REMOTE> jobs which appears in one of the other two */
 
@@ -61,7 +67,9 @@ WHERE description IN (SELECT description FROM job
 
 /* goddammit mysql */
 CREATE TEMPORARY TABLE no_remote AS
-SELECT description FROM job WHERE location = 1009 OR location = 1010;
+SELECT description FROM job
+       WHERE location = 1009 OR location = 1010
+       OR location = 1059 OR location = 1060;
 
 DELETE FROM job WHERE description IN (SELECT description FROM no_remote);
 
