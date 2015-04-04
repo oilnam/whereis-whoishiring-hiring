@@ -52,12 +52,28 @@ UPDATE city SET country = 'China' WHERE country LIKE '%Republic of China';
 
 /* deleting <NO REMOTE>, <REMOTE no> jobs and
    <REMOTE> jobs which appears in one of the other two */
+
+/*
 DELETE FROM job
 WHERE description IN (SELECT description FROM job
       WHERE location = 1009 OR location = 1010);
+*/
+
+/* goddammit mysql */
+CREATE TEMPORARY TABLE no_remote AS
+SELECT description FROM job WHERE location = 1009 OR location = 1010;
+
+DELETE FROM job WHERE description IN (SELECT description FROM no_remote);
 
 
 /* get rid of duplicates */
+
+/*
 DELETE FROM job 
 WHERE id NOT IN (SELECT MIN(id) FROM job GROUP BY description, location);
+*/
+
+DELETE FROM job
+WHERE job.id NOT IN 
+(SELECT * FROM (SELECT MIN(job.id) FROM job GROUP BY job.description, job.location) x);
 

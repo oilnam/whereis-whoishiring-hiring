@@ -1,6 +1,21 @@
 #!/bin/bash
 
-function download_pages {
+# replace these with your own variables
+MYSQL_DB="whoishiring"
+MYSQL_USR="whoishiring"
+MYSQL_PWD=""
+
+
+USAGE() {
+    echo "Usage: ./build_db.sh <sqlite> or <mysql>"
+}
+
+if [ $# -ne "1" ]; then
+    USAGE
+    exit 1
+fi
+
+download_pages () {
     # 2015
     wget https://news.ycombinator.com/item?id=8822808 -O 2015-1.html
     wget https://news.ycombinator.com/item?id=8980047 -O 2015-2.html
@@ -29,21 +44,49 @@ function download_pages {
 }
 
 # comment out the following line after the first download
-#download_pages
+# download_pages
 
 # build the db
 echo
 echo "Building the db; this will take a little while..."
 echo
 
-rm -f database-full.db
-rm -f ../app.db
+if [ $1 = "sqlite" ]; then
+    echo "Using db sqlite"
+    # delete old db
+    rm -f database-full.db
+    rm -f ../app.db
 
-python createDB.py
-python importWiki.py
-python importHN.py
+    # create and import stuff
+    echo "Importing cities and jobs..."
+    python createDB.py
+    python importWiki.py
+    python importHN.py
 
-sqlite3 ../app.db < refine_db.sql
-cp ../app.db database-full.db
+    echo "Cleaning up..."
+    # cleanup
+    sqlite3 ../app.db < refine_db.sql
+    cp ../app.db database-full.db
+fi
 
+
+if [ $1 = "mysql" ]; then
+    echo "Using db mysql"
+    # drop tables
+    mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD -e "DROP TABLE job;"
+    mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD -e "DROP TABLE city;"
+
+    # create and import stuff
+    echo "Importing cities and jobs..."
+    python createDB.py
+    python importWiki.py
+    python importHN.py
+    
+    # cleanup
+    echo "Cleaning up..."
+    mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD < refine_db.sql
+fi
+
+
+# run tests
 python ../tests.py
