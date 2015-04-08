@@ -34,7 +34,7 @@ City.query.filter_by(name = u'Mobile').delete()
 City.query.filter_by(name = u'Pierre').delete()
 City.query.filter_by(name = u'Lincoln').delete()
 City.query.filter_by(name = u'Windsor').delete()
-City.query.filter_by(country = 'Seychelles').delete()
+City.query.filter_by(country = u'Seychelles').delete()
 
 m = City.query.filter(City.name.like(u'%Mexico City')).first()
 db.session.delete(m)

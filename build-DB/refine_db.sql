@@ -1,49 +1,54 @@
-/* updates with sqlalchemy are a f pain */
+/* This is a set of queries needed to make the db consistent */
 
-/* makes Z\xfcrich point to Zurich */
-UPDATE job SET location = 976 WHERE location = 449;
+/* Grouping cities together */
 
-/* makes New York point to New York City */
-UPDATE job SET location = 173 WHERE location = 970;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Zurich')
+WHERE location = (SELECT id FROM city WHERE name = 'Z\xfcrich');
 
-/* makes NYC point to New York City */
-UPDATE job SET location = 173 WHERE location = 968;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'New York City')
+WHERE location = (SELECT id FROM city WHERE name = 'New York');
 
-/* makes Manhattan point to New York City */
-UPDATE job SET location = 173 WHERE location = 1007;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'New York City')
+WHERE location = (SELECT id FROM city WHERE name = 'NYC');
 
-/* makes Brooklyn, NY point to New York City */
-UPDATE job SET location = 173 WHERE location = 1024;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'New York City')
+WHERE location = (SELECT id FROM city WHERE name = 'Manhattan');
 
-/* makes NEW YORK point to New York City */
-UPDATE job SET location = 173 WHERE location = 1041;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'New York City')
+WHERE location = (SELECT id FROM city WHERE name = 'Brooklyn, NY');
 
-/* makes NY, NY point to New York City */
-UPDATE job SET location = 173 WHERE location = 1061;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'New York City')
+WHERE location = (SELECT id FROM city WHERE name = 'NEW YORK');
 
-/* makes SF point to San Francisco */
-UPDATE job SET location = 24 WHERE location = 971;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'New York City')
+WHERE location = (SELECT id FROM city WHERE name = 'NY, NY');
 
-/* makes SAN FRANCISCO point to San Francisco */
-UPDATE job SET location = 24 WHERE location = 1040;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'San Francisco')
+WHERE location = (SELECT id FROM city WHERE name = 'SF');
 
-/* makes Delhi point to New Delhi */
-UPDATE job SET location = 739 WHERE location = 960;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'San Francisco')
+WHERE location = (SELECT id FROM city WHERE name = 'SAN FRANCISCO');
 
-/* makes Padova point to Padua */
-UPDATE job SET location = 1005 WHERE location = 1006;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'New Delhi')
+WHERE location = (SELECT id FROM city WHERE name = 'Delhi');
 
-/* makes St Paul point to Saint Paul */
-UPDATE job SET location = 1029 WHERE location = 1028;	
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Padua')
+WHERE location = (SELECT id FROM city WHERE name = 'Padova');
 
-/* makes Milano point to Milan */
-UPDATE job SET location = 455 WHERE location = 1036;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Saint Paul')
+WHERE location = (SELECT id FROM city WHERE name = 'St Paul');
 
-/* makes LONDON point to London */
-UPDATE job SET location = 397 WHERE location = 1039;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Milan')
+WHERE location = (SELECT id FROM city WHERE name = 'Milano');
 
-/* makes SEATTLE point to Seattle */
-UPDATE job SET location = 25 WHERE location = 1042;
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'London')
+WHERE location = (SELECT id FROM city WHERE name = 'LONDON');
+
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Seattle')
+WHERE location = (SELECT id FROM city WHERE name = 'SEATTLE');
+
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'REMOTE')
+WHERE location = (SELECT id FROM city WHERE name = 'Remote');
 
 /* sad but true in tech lol */
 UPDATE city SET country = 'United States' WHERE name = 'Venice';
@@ -53,34 +58,26 @@ UPDATE city SET country = 'Hong Kong' WHERE country = 'HK';
 UPDATE city SET country = 'China' WHERE country LIKE '%Republic of China';
 
 
-/* merge Remote with REMOTE */
-UPDATE job SET location = 1008 WHERE location = 1058;
-
 /* deleting <NO REMOTE>, <REMOTE no> jobs and
    <REMOTE> jobs which appears in one of the other two */
 
-/*
-DELETE FROM job
-WHERE description IN (SELECT description FROM job
-      WHERE location = 1009 OR location = 1010);
-*/
-
-/* goddammit mysql */
 CREATE TEMPORARY TABLE no_remote AS
 SELECT description FROM job
-       WHERE location = 1009 OR location = 1010
-       OR location = 1059 OR location = 1060;
+       WHERE location IN (SELECT id FROM city 
+       	     	      	  WHERE name = 'NO REMOTE' OR name = 'REMOTE no'
+			  OR name = 'Remote not' OR name = 'No Remote');
 
 DELETE FROM job WHERE description IN (SELECT description FROM no_remote);
 
 
-/* get rid of duplicates */
+/* get rid of duplicates -- this is what I wanted to write */
 
 /*
 DELETE FROM job 
 WHERE id NOT IN (SELECT MIN(id) FROM job GROUP BY description, location);
 */
 
+/* this is what MySQL wants me to write :/ */
 DELETE FROM job
 WHERE job.id NOT IN 
 (SELECT * FROM (SELECT MIN(job.id) FROM job GROUP BY job.description, job.location) x);
