@@ -1,3 +1,6 @@
+import time
+import os
+
 def magic(s, l = [], top = 0, pos = 0):
     if len(s) == 0:
         return l
@@ -22,3 +25,13 @@ def mapMonthToName(n):
         return m[n]
     except:
         return 'Key error'
+
+
+def lastUpdate():
+    if os.getcwd().split('/')[-1] != 'hn-pages':
+        os.chdir('build-DB/hn-pages')
+    pages = [ os.path.getmtime(f) for f in os.listdir('.') if f.endswith('html') ]
+
+    #return time.gmtime(max(pages))
+
+    return time.strftime("%b %d %Y at %H:%M UTC", time.gmtime(max(pages)))

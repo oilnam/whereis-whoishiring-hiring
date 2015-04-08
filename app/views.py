@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, redirect, url_for
 from sqlalchemy import func, desc
 from models import City, Job
-from helpers import magic, mapMonthToName
+from helpers import magic, mapMonthToName, lastUpdate
 from errors import not_found_error, internal_error
 
 @app.route('/')
@@ -45,7 +45,8 @@ def index():
                            lastYear = lastYear,
                            lastRank = lastRank,
                            lastRankCountry = lastRankCountry,
-                           totalJobs = totalJobs)
+                           totalJobs = totalJobs,
+                           lastUpdate = lastUpdate())
 
 
 @app.route('/city/<year>/<month>')
