@@ -51,7 +51,9 @@ def importComments(_fileList):
                     if position != -1:
                         found_flag = True
                         if re.match(city + '([^a-z]|$)', plain[position:]):
-                            newJob = Job(unicode(content), month, year, dd[city])
+                            # get the original HN id and push the new job
+                            hn_id = c.findAll('a')[2]['href'].split('=')[1]
+                            newJob = Job(unicode(content), month, year, hn_id, dd[city])
                             db.session.add(newJob)
                         else:
                             f.write('--DITCHED BY REGEX--\n')

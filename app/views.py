@@ -100,7 +100,7 @@ def browse_countries_by_month(year = 0, month = 0):
 @app.route('/city/<year>/<month>/<city>')
 def show_by_city(year, month, city):
 
-    jobs = db.session.query(Job.description, Job.id).join(City).\
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).join(City).\
            filter(City.name == city).\
            filter(Job.month == month).\
            filter(Job.year == year).all()
@@ -115,7 +115,7 @@ def show_by_city(year, month, city):
 @app.route('/country/<year>/<month>/<country>')
 def show_by_country(year, month, country):
 
-    jobs = db.session.query(Job.description, Job.id).join(City).\
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).join(City).\
            filter(City.country == country).\
            filter(Job.month == month).\
            filter(Job.year == year).all()
