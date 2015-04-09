@@ -1,3 +1,4 @@
+import bisect
 import time
 import os
 
@@ -11,7 +12,7 @@ def magic(s, l = [], top = 0, pos = 0):
         top = head[0]
         pos += 1
     else:
-        l[pos-1].append(head[1])
+        bisect.insort(l[pos-1], head[1])
     
     return magic(s[1:], l, top, pos)
 
