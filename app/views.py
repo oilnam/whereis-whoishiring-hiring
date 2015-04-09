@@ -7,7 +7,7 @@ from errors import not_found_error, internal_error
 
 @app.route('/')
 @app.route('/index')
-#@app.cache.cached(timeout=500)
+@app.cache.cached(timeout=500)
 def index():
 
     # harcoded variables; to be replaced when auto-update will be ready
@@ -50,6 +50,7 @@ def index():
 
 
 @app.route('/city/<year>/<month>')
+@app.cache.cached(timeout=500)
 def browse_cities_by_month(year = 0, month = 0):
 
     if int(month) not in range(1,13):
@@ -74,6 +75,7 @@ def browse_cities_by_month(year = 0, month = 0):
 
 
 @app.route('/country/<year>/<month>')
+@app.cache.cached(timeout=500)
 def browse_countries_by_month(year = 0, month = 0):
 
     if int(month) not in range(1,13):
@@ -98,6 +100,7 @@ def browse_countries_by_month(year = 0, month = 0):
 
 
 @app.route('/city/<year>/<month>/<city>')
+@app.cache.cached(timeout=500)
 def show_by_city(year, month, city):
 
     jobs = db.session.query(Job.description, Job.id, Job.hn_id).join(City).\
@@ -113,6 +116,7 @@ def show_by_city(year, month, city):
 
 
 @app.route('/country/<year>/<month>/<country>')
+@app.cache.cached(timeout=500)
 def show_by_country(year, month, country):
 
     jobs = db.session.query(Job.description, Job.id, Job.hn_id).join(City).\
@@ -128,6 +132,7 @@ def show_by_country(year, month, country):
 
 
 @app.route('/all/cities')
+@app.cache.cached(timeout=500)
 def all_cities():
 
     allCities = db.session.\
@@ -142,6 +147,7 @@ def all_cities():
 
 
 @app.route('/all/countries')
+@app.cache.cached(timeout=500)
 def all_countries():
 
     allCountries = db.session.\
@@ -156,6 +162,7 @@ def all_countries():
 
 
 @app.route('/faq')
+@app.cache.cached(timeout=500)
 def faq():
     
     return render_template('faq.html', title = 'wwh? | faq')
