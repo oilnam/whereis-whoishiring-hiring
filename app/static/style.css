@@ -61,3 +61,12 @@ ol li {
 .errorMessage {
     padding-top: 70px;
 }
+
+.faq-container {
+    max-width: 790px;
+    margin: auto;
+}
+
+.faq-container h3 {
+    margin-top: 30px;
+}

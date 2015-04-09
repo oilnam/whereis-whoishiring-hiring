@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block body_content %}
+
+<div class="pure-u-1-1">
+
+  <div class="faq-container">
+    <h3>Why did you build this, and who are you?</h3>
+    <p>
+      I'm a new grad, back from 7+ months of motorbiking solo through SE Asia.
+      Being the travel addict that I am, as I was looking for a job as
+      a SDE I 
+      started to wander where in the world I wanted to go next.
+      Hacker News' <i>Who is hiring?</i> was obviously my go-to place, but the UI is so not 
+      pretty, right?
+    </p>
+    <p>
+      Anyhow, I'm still looking! Here's my 
+      <a target="_blank" href="https://www.dropbox.com/s/azxu0iz067ppst6/resume_manlio.pdf?dl=0">
+	resume</a>; feel free to
+      <a target="_blank" href="mailto:manlio.poltronieri@gmail.com">drop me an email</a>.
+      Also, I'd love to have some general feedback on the website.
+      You can find my GPG key <a target="blank" href="https://pgp.mit.edu/pks/lookup?op=vindex&search=0x6625D8AF623EF208">here</a>.
+    </p>
+
+    <h3>Is the code on Github?</h3>
+    <p>
+      Sure! For both the website and the database. Check it out
+      <a target ="blank" href="https://github.com/oilnam/whereis-whoishiring-hiring">here</a>.
+    </p>
+
+    <h3>Is there an API?</h3>
+    <p>
+      Not yet, but I'm working on it :) <br>
+      In the meantime, you can download a Sqlite copy of the full
+      database to play with 
+      <a href="https://www.dropbox.com/s/farbls5hbkhbc1i/last.db.zip?dl=0">here</a>.
+      If you'd rather build your own copy of the database, check out
+      the README page on Github.
+    </p>
+
+    <h3>How frequently is the database updated?</h3>
+    <p>
+      Starting next month (May) the site will probably auto-update live
+      every 15 minutes or something from the moment the new post hits
+      the front page. I have most of the code ready but I still need to
+      write tests.
+      I was getting a lot of stuff done, and then Tinder. Ouch.
+    </p>
+
+    <h3>Why is xyz city not showing up?</h3>
+    <p>
+      To speed up the db indexing I decided to start with a fairly
+      small set of cities (~1k) and then to manually augment the city
+      table every time a post didn't match any city (yeah that was a 
+      pretty boring monkey job); therefore it can happen that a fairly
+      small city is not in the db yet. Drop me an email and I'll add it. 
+    </p>
+
+    <h3>What is the stack behind <i>wwh?</i> ?</h3>
+    <p>
+      Python + Flask + SQLAlchemy, Nginx (http + reverse proxy cache), 
+      MySQL, Pure CSS hosted on my
+      Digital Ocean VPS. Kudos to the excellent 
+      <a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 
+      library for web scraping.
+    </p>
+    
+  </div>
+
+</div>
+
+{% endblock %}

@@ -66,7 +66,7 @@ def browse_cities_by_month(year = 0, month = 0):
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
     return render_template('browse_city_by_month.html',
-                           title = 'wiwihi? | {0}-{1}'.format(month, year),
+                           title = 'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
                            currentMonth = mapMonthToName(int(month)),
@@ -90,7 +90,7 @@ def browse_countries_by_month(year = 0, month = 0):
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
     return render_template('browse_country_by_month.html',
-                           title = 'wiwihi? | {0}-{1}'.format(month, year),
+                           title = 'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
                            currentMonth = mapMonthToName(int(month)),
@@ -121,7 +121,7 @@ def show_by_country(year, month, country):
            filter(Job.year == year).all()
 
     return render_template('show_country.html',
-                           title = 'wiwihi? | {0} | {1}-{2}'.format(country, month, year), 
+                           title = 'wwh? | {0} | {1}-{2}'.format(country, month, year), 
                            country = country,
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)))
@@ -137,8 +137,9 @@ def all_cities():
                 order_by(desc('noJobs')).all()
 
     return render_template('all_cities.html',
-                           title = 'wiwihi? | all cities',
+                           title = 'wwh? | all cities',
                            allCities = allCities)
+
 
 @app.route('/all/countries')
 def all_countries():
@@ -150,5 +151,13 @@ def all_countries():
                    order_by(desc('noJobs')).all()
 
     return render_template('all_countries.html',
-                           title = 'wiwihi? | all countries',
+                           title = 'wwh? | all countries',
                            allCountries = allCountries)
+
+
+@app.route('/faq')
+def faq():
+    
+    return render_template('faq.html', title = 'wwh? | faq')
+
+
