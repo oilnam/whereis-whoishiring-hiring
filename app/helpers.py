@@ -29,10 +29,5 @@ def mapMonthToName(n):
 
 
 def lastUpdate():
-    if os.getcwd().split('/')[-1] != 'hn-pages':
-        os.chdir('build-DB/hn-pages')
-    pages = [ os.path.getmtime(f) for f in os.listdir('.') if f.endswith('html') ]
-
-    #return time.gmtime(max(pages))
-
-    return time.strftime("%b %d %Y at %H:%M UTC", time.gmtime(max(pages)))
+    t = os.path.getmtime('app.db')
+    return time.strftime("%b %d %Y at %H:%M UTC", time.gmtime(t))
