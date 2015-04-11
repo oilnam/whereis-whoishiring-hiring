@@ -58,7 +58,8 @@ extra = [
     ('New York', 'United States'), ('San Jose', 'United States'),
     ('NYC', 'United States'), ('SF', 'United States'),
     ('LA, CA', 'United States'), ('Bloomington', 'United States'),
-    ('Cambridge', 'United States'), ('Cambridge, UK', 'United Kingdom'),
+    ('Cambridge, MA', 'United States'), ('Cambridge, UK', 'United Kingdom'),
+    ('Cambridge MA', 'United States'), ('TORONTO', 'Canada'),
     ('Zurich', 'Switzerland'), ('Nice, France', 'France'),
     ('Versailles', 'France'), ('Iron Mountain', 'United States'),
     ('Lincoln, NE', 'United States'), ('Windsor, ON', 'United States'),
@@ -101,7 +102,8 @@ extra = [
     ('Victoria, Seychelles', 'Seychelles'), ('Burley', 'United States'),
     ('Fayetteville', 'United States'), ('Burlington', 'United States'),
     ('Remote', 'DELETE_ME'), ('Remote not', 'DELTE_ME'),
-    ('No Remote', 'DELETE_ME'), ('NY, NY', 'United States')]
+    ('No Remote', 'DELETE_ME'), ('NY, NY', 'United States'),
+    ('St. Petersburg', 'Russia'), ('Dublin OH', 'United States')]
 
 for i in extra:
     c = City(unicode(i[0]), unicode(i[1]))

@@ -50,12 +50,38 @@ WHERE location = (SELECT id FROM city WHERE name = 'SEATTLE');
 UPDATE job SET location = (SELECT id FROM city WHERE name = 'REMOTE')
 WHERE location = (SELECT id FROM city WHERE name = 'Remote');
 
-/* sad but true in tech lol */
-UPDATE city SET country = 'United States' WHERE name = 'Venice';
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Boston')
+WHERE location = (SELECT id FROM city WHERE name = 'Cambridge, MA');
+
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Boston')
+WHERE location = (SELECT id FROM city WHERE name = 'Cambridge MA');
+
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Toronto')
+WHERE location = (SELECT id FROM city WHERE name = 'TORONTO');
+
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Los Angeles')
+WHERE location = (SELECT id FROM city WHERE name = 'Venice');
+
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'St. Petersburg')
+WHERE location = (SELECT id FROM city WHERE name = 'Saint Petersburg');
+
 
 UPDATE city SET country = 'Hong Kong' WHERE country = 'HK';
 
 UPDATE city SET country = 'China' WHERE country LIKE '%Republic of China';
+
+
+/* delete jobs from Dublin that belong to Dublin, Ohio */
+
+DELETE FROM job WHERE location =
+       (SELECT id FROM city WHERE name = 'Dublin')
+       AND hn_id IN
+       	   (SELECT hn_id FROM job WHERE location =
+	          (SELECT id FROM city WHERE name = 'Dublin')
+	   AND hn_id IN (
+	   SELECT hn_id FROM job WHERE location =
+       	   	  (SELECT id FROM city WHERE name = 'Dublin OH')
+	));
 
 
 /* deleting <NO REMOTE>, <REMOTE no> jobs and

@@ -109,7 +109,7 @@ def show_by_city(year, month, city):
            filter(Job.year == year).all()
 
     return render_template('show_city.html',
-                           title = 'wiwihi? | {0} | {1}-{2}'.format(city, month, year), 
+                           title = 'wwh? | {0} | {1}-{2}'.format(city, month, year),
                            city = city,
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)))
