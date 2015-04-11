@@ -90,3 +90,6 @@ fi
 
 # run tests
 python ../tests.py
+
+# touch a file to get last update time
+touch last_update
