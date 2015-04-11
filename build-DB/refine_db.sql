@@ -72,16 +72,20 @@ UPDATE city SET country = 'China' WHERE country LIKE '%Republic of China';
 
 
 /* delete jobs from Dublin that belong to Dublin, Ohio */
+/* I hate you MySQL */
 
-DELETE FROM job WHERE location =
-       (SELECT id FROM city WHERE name = 'Dublin')
-       AND hn_id IN
-       	   (SELECT hn_id FROM job WHERE location =
-	          (SELECT id FROM city WHERE name = 'Dublin')
-	   AND hn_id IN (
-	   SELECT hn_id FROM job WHERE location =
-       	   	  (SELECT id FROM city WHERE name = 'Dublin OH')
-	));
+CREATE TEMPORARY TABLE the_dubliners AS
+SELECT id FROM job WHERE location = 
+    (SELECT id FROM city WHERE name = 'Dublin')
+AND hn_id IN
+    (SELECT hn_id FROM job WHERE location =
+        (SELECT id FROM city WHERE name = 'Dublin')
+    AND hn_id IN (
+        SELECT hn_id FROM job WHERE location =
+            (SELECT id FROM city WHERE name = 'Dublin OH')
+	)
+    );
+DELETE FROM job WHERE id IN (SELECT id FROM the_dubliners);
 
 
 /* deleting <NO REMOTE>, <REMOTE no> jobs and
