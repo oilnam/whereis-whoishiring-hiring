@@ -62,6 +62,9 @@ WHERE location = (SELECT id FROM city WHERE name = 'TORONTO');
 UPDATE job SET location = (SELECT id FROM city WHERE name = 'Los Angeles')
 WHERE location = (SELECT id FROM city WHERE name = 'Venice');
 
+UPDATE job SET location = (SELECT id FROM city WHERE name = 'Los Angeles')
+WHERE location = (SELECT id FROM city WHERE name = 'Santa Monica');
+
 UPDATE job SET location = (SELECT id FROM city WHERE name = 'St. Petersburg')
 WHERE location = (SELECT id FROM city WHERE name = 'Saint Petersburg');
 

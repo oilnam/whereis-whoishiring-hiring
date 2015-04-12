@@ -60,7 +60,7 @@ if [ $1 = "sqlite" ]; then
     # create and import stuff
     echo "Importing cities and jobs..."
     python createDB.py
-    python importWiki.py
+    python importCities.py
     python importHN.py
 
     echo "Cleaning up..."
@@ -79,7 +79,7 @@ if [ $1 = "mysql" ]; then
     # create and import stuff
     echo "Importing cities and jobs..."
     python createDB.py
-    python importWiki.py
+    python importCities.py
     python importHN.py
     
     # cleanup
