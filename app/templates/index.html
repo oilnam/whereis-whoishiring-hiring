@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body_content %}
 
-<div class="pure-u-1-3">
+<div class="pure-u-1 pure-u-lg-1-3">
   <p class="black"><b>top cities - {{lastMonthName}} {{lastYear}}</b></p>
   <ol>
     {% for city in top12cities %}
@@ -14,7 +14,7 @@
   <p><b><a href="/city/{{lastYear}}/{{lastMonth}}">[ view all cities ]</a></b></p>
 </div>
 
-<div class="pure-u-1-3">
+<div class="pure-u-1 pure-u-lg-1-3">
   <p class="black"><b>top countries - {{lastMonthName}} {{lastYear}}</b></p>
   <ol>
     {% for country in top12countries %}
@@ -29,7 +29,7 @@
 </div>
 
 
-<div class="pure-u-1-3">
+<div class="pure-u-1 pure-u-lg-1-3">
   <p class="black"><b>macro areas - {{lastMonthName}} {{lastYear}}</b></p>
   <ul>
     <li>
