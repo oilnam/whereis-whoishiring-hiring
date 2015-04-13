@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, redirect, url_for
 from sqlalchemy import func, desc
-from models import City, Job
+from models import City, Europe, Job, SEAsia, noCal, soCal
 from helpers import magic, mapMonthToName, lastUpdate
 from errors import not_found_error, internal_error
 
@@ -15,37 +15,66 @@ def index():
     lastYear = 2015
     totalJobs = Job.query.count()
 
-    lastRank = db.session.\
-               query(func.count(Job.description).label('noJobs'), City.name).\
-               join(City).\
-               filter(Job.month == lastMonth).\
-               filter(Job.year == lastYear).\
-               group_by(City.name).\
-               order_by(desc('noJobs')).limit(12)
+    top12cities = db.session.\
+                  query(func.count(Job.description).label('noJobs'), City.name).\
+                  join(City).\
+                  filter(Job.month == lastMonth).\
+                  filter(Job.year == lastYear).\
+                  group_by(City.name).\
+                  order_by(desc('noJobs')).limit(12)
 
-    lastRankCountry = db.session.\
-                      query(func.count(Job.description).label('noJobs'), City.country).\
-                      join(City).\
-                      filter(Job.month == lastMonth).\
-                      filter(Job.year == lastYear).\
-                      group_by(City.country).\
-                      order_by(desc('noJobs')).limit(12)
+    top12countries = db.session.\
+                     query(func.count(Job.description).label('noJobs'), City.country).\
+                     join(City).\
+                     filter(Job.month == lastMonth).\
+                     filter(Job.year == lastYear).\
+                     group_by(City.country).\
+                     order_by(desc('noJobs')).limit(12)
 
-    topCities = db.session.\
-                query(func.count(Job.description).label('noJobs'), City.name).\
-                join(City).\
-                group_by(City.name).\
-                order_by(desc('noJobs')).limit(12)
+    europeJobs = db.session.query(Job.id).join(City).\
+                 filter(City.country.in_(db.session.query(Europe.country))).\
+                 filter(Job.month == lastMonth).\
+                 filter(Job.year == lastYear).\
+                 group_by(Job.hn_id).count()
+
+    seasiaJobs = db.session.query(Job.id).join(City).\
+                 filter(City.country.in_(db.session.query(SEAsia.country))).\
+                 filter(Job.month == lastMonth).\
+                 filter(Job.year == lastYear).\
+                 group_by(Job.hn_id).count()
+
+    noCalJobs = db.session.query(Job.id).join(City).\
+                 filter(City.name.in_(db.session.query(noCal.city))).\
+                 filter(Job.month == lastMonth).\
+                 filter(Job.year == lastYear).\
+                 group_by(Job.hn_id).count()
+
+    soCalJobs = db.session.query(Job.id).join(City).\
+                 filter(City.name.in_(db.session.query(soCal.city))).\
+                 filter(Job.month == lastMonth).\
+                 filter(Job.year == lastYear).\
+                 group_by(Job.hn_id).count()
+
+    remoteJobs = db.session.query(Job.id).join(City).\
+                 filter(City.name == 'REMOTE').\
+                 filter(Job.month == lastMonth).\
+                 filter(Job.year == lastYear).\
+                 group_by(Job.hn_id).count()
+
 
     return render_template('index.html',
                            title = 'where is who is hiring? hiring?',
-                           topCities = topCities,
                            lastMonth = lastMonth,
                            lastMonthName = mapMonthToName(lastMonth),
                            lastYear = lastYear,
-                           lastRank = lastRank,
-                           lastRankCountry = lastRankCountry,
+                           top12cities = top12cities,
+                           top12countries = top12countries,
                            totalJobs = totalJobs,
+                           europeJobs = europeJobs,
+                           seasiaJobs = seasiaJobs,
+                           noCalJobs = noCalJobs,
+                           soCalJobs = soCalJobs,
+                           remoteJobs = remoteJobs,
                            lastUpdate = lastUpdate())
 
 
@@ -167,4 +196,76 @@ def faq():
     
     return render_template('faq.html', title = 'wwh? | faq')
 
+
+@app.route('/europe/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_europe(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.country.in_(db.session.query(Europe.country))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+    return render_template('show_region.html',
+                           title = 'wwh? | Europe | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           region = 'Europe')
+
+
+@app.route('/seasia/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_seasia(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.country.in_(db.session.query(SEAsia.country))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+
+    return render_template('show_region.html',
+                           title = 'wwh? | SE Asia | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           region = 'SE Asia')
+
+
+@app.route('/nocal/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_nocal(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.name.in_(db.session.query(noCal.city))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+    return render_template('show_region.html',
+                           title = 'wwh? | NO Cal | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           region = 'Northern California')
+
+
+@app.route('/socal/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_socal(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.name.in_(db.session.query(soCal.city))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+    return render_template('show_region.html',
+                           title = 'wwh? | SO Cal | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           region = 'Southern California')
 

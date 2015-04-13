@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block body_content %}
+
+<div class="pure-u-1-1">
+  <div class="totalJobsHeadline">
+    <b>{{region}}</b> - {{ jobs|length }} jobs in {{ month }} {{ year }}
+  </div>
+</div>
+{% for j in jobs %}
+<div class="pure-u-1 job-ad">
+  <p class="job-splitter"> *** <br>
+    <a target="_blank" 
+       href="https://news.ycombinator.com/item?id={{j.hn_id}}">
+      [ original post ]</a>
+  </p>
+  <!-- the comment that follows has id : {{ j.id }} -->
+  {{ j.description|safe }}
+</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

@@ -6,7 +6,8 @@ This repo contains:
  
 You can find a list of FAQ about the website here: http://whereis-whoishiring-hiring.me/faq
 
-A complete (Sqlite) copy of the database is available for download [here](https://www.dropbox.com/s/farbls5hbkhbc1i/last.db.zip?dl=0); however, if you'd rather build your own copy from scratch (maybe you want to twist it a bit?), this is how you do it:
+If you want build your own copy from scratch (maybe you want to
+twist it a bit?), keep reading.
 
 Building the database
 ---------------------
@@ -25,11 +26,14 @@ The main building script `build_db.sh` is pretty self explanatory; anyhow, this 
  
 `build_db.sh` is a wrapper that runs the following:
 
- - `importWiki.py` gets a list of cities from [Wikipedia](http://en.wikipedia.org/wiki/List_of_cities_by_longitude), plus many more hand-picked by me.
+ - `importCities.py` gets a list of cities from
+   [Wikipedia](http://en.wikipedia.org/wiki/List_of_cities_by_longitude),
+   plus many more hand-picked by me.
+   The macro areas are also defined here.
  - `importHN.py` processes all "Who is hiring?" pages found in `hn-pages`. 
  - `refine_db.sql` contains a bunch of SQL queries used to refine the db.
 
-It also *drops* all the tables every time you run it. To give some reference, building the db from scratch takes less then half a minute on my MacbookPro. 
+Be careful that the script *drops* all the tables every time you run it. To give some reference, building the db from scratch takes less then half a minute on my MacbookPro. 
 
 Authors
 -------

@@ -6,8 +6,9 @@ import os
 dir = os.path.join(os.path.dirname(__file__), "..")
 sys.path.append(dir)
 from app import db
-from app.models import City
+from app.models import City, Job, Europe, soCal, noCal, SEAsia
 
+# import cities from Wikipedia
 s = bs(open('wiki.html'))
 
 table = s.find('table', class_ = 'wikitable')
@@ -108,7 +109,72 @@ extra = [
 for i in extra:
     c = City(unicode(i[0]), unicode(i[1]))
     db.session.add(c)
-
 db.session.commit()
-db.session.close()
 
+
+# Europe
+europe = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus',
+          'Czech Republic', 'Denmark', 'Estonia', 'Finland',
+          'France', 'Germany', 'Greece', 'Hungary', 'Ireland',
+          'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta',
+          'Netherlands', 'Poland', 'Portugal', 'Romania',
+          'Slovakia', 'Slovenia', 'Spain', 'Sweden',
+          'United Kingdom', 'Iceland', 'Norway', 'Switzerland',
+          'Liechtenstein']
+
+for i in europe:
+    c = Europe(unicode(i))
+    db.session.add(c)
+db.session.commit()
+
+
+# South East Asia
+seasia = ['Philippines', 'Malaysia', 'Indonesia', 'Brunei',
+          'Singapore', 'Cambodia', 'Laos', 'Burma',
+          'Thailand', 'Vietnam']
+
+for i in seasia:
+    c = SEAsia(unicode(i))
+    db.session.add(c)
+db.session.commit()
+
+
+# Northern California
+noCalif = ['Alameda', 'Antioch', 'Berkeley', 'Brentwood', 'Burlingame', 
+           'Campbell', 'Chico', 'Citrus Heights', 'Clovis', 'Concord', 
+           'Cupertino', 'Cupertino', 'Daly City', 'Davis', 'Elk Grove',
+           'Emeryville', 'Fairfield', 'Folsom', 'Foster City', 'Fremont', 
+           'Fresno', 'Hanford', 'Hayward', 'Livermore', 'Lodi', 
+           'Los Altos', 'Los Gatos', 'Madera', 'Manteca', 'Menlo Park',
+           'Merced', 'Milpitas', 'Modesto', 'Mountain View', 'Napa',
+           'Novato', 'Oakland', 'Palo Alto', 'Petaluma', 'Pittsburg',
+           'Pleasanton', 'Porterville', 'Rancho Cordova', 'Redding',
+           'Redwood', 'Richmond', 'Rocklin', 'Roseville', 'Sacramento', 
+           'Salinas', 'San Francisco', 'San Jose', 'San Leandro', 
+           'San Mateo', 'San Mateo', 'San Rafael', 'San Ramon',
+           'Santa Clara', 'Santa Cruz', 'Santa Monica', 'Santa Rosa',
+           'Stockton', 'Sunnyvale', 'Tracy', 'Tulare', 'Turlock',
+           'Union City', 'Vacaville', 'Vallejo', 'Visalia', 
+           'Walnut Creek', 'Watsonville', 'Woodland', 'Yuba City']
+
+for i in noCalif:
+    c = noCal(unicode(i))
+    db.session.add(c)
+db.session.commit()
+
+
+# Southern California
+soCalif = ['Aliso Viejo', 'Burbank', 'Camarillo', 'Chula Vista', 
+           'Culver City', 'Fontana', 'Hawthorne', 'Irvine',
+           'Los Angeles', 'Orange County', 'Oxnard', 'Pasadena',
+           'Pasadena', 'Pomona', 'San Bernardino', 'San Diego',
+           'Santa Ana', 'Santa Clarita', 'Ventura, CA', 'West Hollywood']
+
+for i in soCalif:
+    c = soCal(unicode(i))
+    db.session.add(c)
+db.session.commit()
+
+
+# goodbye
+db.session.close()

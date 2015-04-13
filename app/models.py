@@ -13,7 +13,6 @@ class City(db.Model):
         return '{}'.format(self.name)
 
 
-
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     description = db.Column(db.UnicodeText)
@@ -31,3 +30,47 @@ class Job(db.Model):
 
     def __repr__(self):
         return '{}'.format(self.description)
+
+
+class Europe(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    country = db.Column(db.UnicodeText)
+
+    def __init__(self, _country):
+        self.country = _country
+
+    def __repr__(self):
+        return '{}'.format(self.country)
+
+
+class SEAsia(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    country = db.Column(db.UnicodeText)
+
+    def __init__(self, _country):
+        self.country = _country
+
+    def __repr__(self):
+        return '{}'.format(self.country)
+
+
+class noCal(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    city = db.Column(db.UnicodeText)
+
+    def __init__(self, _city):
+        self.city = _city
+
+    def __repr__(self):
+        return '{}'.format(self.city)
+
+
+class soCal(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    city = db.Column(db.UnicodeText)
+
+    def __init__(self, _city):
+        self.city = _city
+
+    def __repr__(self):
+        return '{}'.format(self.city)

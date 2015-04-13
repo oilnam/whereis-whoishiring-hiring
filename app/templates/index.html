@@ -4,7 +4,7 @@
 <div class="pure-u-1-3">
   <p class="black"><b>top cities - {{lastMonthName}} {{lastYear}}</b></p>
   <ol>
-    {% for city in lastRank %}
+    {% for city in top12cities %}
     <li>
       <a href="/city/{{lastYear}}/{{lastMonth}}/{{city[1]}}">
 	{{ city[1] }}</a> ({{ city[0] }})
@@ -17,7 +17,7 @@
 <div class="pure-u-1-3">
   <p class="black"><b>top countries - {{lastMonthName}} {{lastYear}}</b></p>
   <ol>
-    {% for country in lastRankCountry %}
+    {% for country in top12countries %}
     <li>
       <a href="/country/{{lastYear}}/{{lastMonth}}/{{country[1]}}">
 	{{ country[1] }}</a> ({{ country[0] }})
@@ -30,15 +30,29 @@
 
 
 <div class="pure-u-1-3">
-  <p class="black">top cities - all time</p>
-  <ol>
-    {% for city in topCities %}
-    <li> 
-      {{ city[1] }} ({{ city[0]}})
+  <p class="black"><b>macro areas - {{lastMonthName}} {{lastYear}}</b></p>
+  <ul>
+    <li>
+      <a href="/seasia/{{lastYear}}/{{lastMonth}}">
+	SE Asia</a> ({{seasiaJobs}})
     </li>
-    {% endfor %}
-  </ol>
-  <p><a href="/all/cities">[ view all ]</a></p>
+    <li>
+      <a href="/nocal/{{lastYear}}/{{lastMonth}}">
+	NO California</a> ({{noCalJobs}})
+    </li>
+    <li>
+      <a href="/socal/{{lastYear}}/{{lastMonth}}">
+	SO California</a> ({{soCalJobs}})
+    </li>
+    <li>
+      <a href="/europe/{{lastYear}}/{{lastMonth}}">
+	Europe</a> ({{europeJobs}})
+    </li>
+    <li>
+      <a href="/country/{{lastYear}}/{{lastMonth}}/REMOTE">
+	REMOTE</a> ({{remoteJobs}})
+    </li>
+  </ul>
 </div>
 
 
