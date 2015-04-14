@@ -3,7 +3,7 @@
 /* Grouping cities together */
 
 UPDATE job SET location = (SELECT id FROM city WHERE name = 'Zurich')
-WHERE location = (SELECT id FROM city WHERE name = 'Z\xfcrich');
+WHERE location = (SELECT id FROM city WHERE name = 'Zürich');
 
 UPDATE job SET location = (SELECT id FROM city WHERE name = 'New York City')
 WHERE location = (SELECT id FROM city WHERE name = 'New York');

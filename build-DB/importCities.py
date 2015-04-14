@@ -36,6 +36,9 @@ City.query.filter_by(name = u'Pierre').delete()
 City.query.filter_by(name = u'Lincoln').delete()
 City.query.filter_by(name = u'Windsor').delete()
 City.query.filter_by(country = u'Seychelles').delete()
+City.query.filter_by(name = u'Stanley').delete()
+City.query.filter_by(name = u'Jackson').delete()
+City.query.filter_by(name = u'Perm').delete()
 
 m = City.query.filter(City.name.like(u'%Mexico City')).first()
 db.session.delete(m)
@@ -104,7 +107,8 @@ extra = [
     ('Fayetteville', 'United States'), ('Burlington', 'United States'),
     ('Remote', 'DELETE_ME'), ('Remote not', 'DELTE_ME'),
     ('No Remote', 'DELETE_ME'), ('NY, NY', 'United States'),
-    ('St. Petersburg', 'Russia'), ('Dublin OH', 'United States')]
+    ('St. Petersburg', 'Russia'), ('Dublin OH', 'United States'),
+    ('Stanley, UK', 'United Kingdom'), ('Jackson, MS', 'United States')]
 
 for i in extra:
     c = City(unicode(i[0]), unicode(i[1]))
