@@ -80,8 +80,7 @@ extra = [
     ('New Haven', 'United States'), ('Madison', 'United States'),
     ('Bellingham', 'United States'), ('Padua', 'Italy'),
     ('Padova', 'Italy'), ('Manhattan', 'United States'),
-    ('REMOTE', 'REMOTE'), ('NO REMOTE', 'DELETE_ME'),
-    ('REMOTE no', 'DELETE_ME'), ('Poznan', 'Poland'),
+    ('Poznan', 'Poland'), ('NY, NY', 'United States'),
     ('Bellevue, WA', 'United States'), ('Hillsboro', 'United States'),
     ('Brighton', 'United Kingdom'), ('Malibu', 'United States'),
     ('Somerville', 'United States'), ('Allahabad', 'India'),
@@ -105,8 +104,6 @@ extra = [
     ('Melk', 'Austria'), ('Markham', 'Canada'),
     ('Victoria, Seychelles', 'Seychelles'), ('Burley', 'United States'),
     ('Fayetteville', 'United States'), ('Burlington', 'United States'),
-    ('Remote', 'DELETE_ME'), ('Remote not', 'DELTE_ME'),
-    ('No Remote', 'DELETE_ME'), ('NY, NY', 'United States'),
     ('St. Petersburg', 'Russia'), ('Dublin OH', 'United States'),
     ('Stanley, UK', 'United Kingdom'), ('Jackson, MS', 'United States')]
 
@@ -114,6 +111,30 @@ for i in extra:
     c = City(unicode(i[0]), unicode(i[1]))
     db.session.add(c)
 db.session.commit()
+
+
+# REMOTE
+remote = [('REMOTE', 'REMOTE'), ('NO REMOTE', '_remote_'),
+          ('REMOTE no', '_remote_'), ('Remote', '_remote_'), 
+          ('Remote not', '_remote_'), ('No Remote', '_remote_')]
+
+for i in remote:
+    c = City(unicode(i[0]), unicode(i[1]))
+    db.session.add(c)
+db.session.commit()
+
+
+# Internships
+interns = [('intern', '_intern_'), ('INTERN', '_intern_'),
+           ('internship', '_intern_'), ('internships', '_intern_'),
+           ('no internships', '_intern_'), ('No internships', '_intern_'),
+           ('no intern', '_intern_')]
+
+for i in interns:
+    c = City(unicode(i[0]), unicode(i[1]))
+    db.session.add(c)
+db.session.commit()
+
 
 
 # Europe

@@ -20,6 +20,7 @@ def index():
                   join(City).\
                   filter(Job.month == lastMonth).\
                   filter(Job.year == lastYear).\
+                  filter(City.country != '_intern_').\
                   group_by(City.name).\
                   order_by(desc('noJobs')).limit(12)
 
@@ -28,6 +29,7 @@ def index():
                      join(City).\
                      filter(Job.month == lastMonth).\
                      filter(Job.year == lastYear).\
+                     filter(City.country != '_intern_').\
                      group_by(City.country).\
                      order_by(desc('noJobs')).limit(12)
 
@@ -61,6 +63,12 @@ def index():
                  filter(Job.year == lastYear).\
                  group_by(Job.hn_id).count()
 
+    internJobs = db.session.query(Job.id).join(City).\
+                 filter(City.name == 'INTERN').\
+                 filter(Job.month == lastMonth).\
+                 filter(Job.year == lastYear).\
+                 group_by(Job.hn_id).count()
+
 
     return render_template('index.html',
                            title = 'where is who is hiring? hiring?',
@@ -75,6 +83,7 @@ def index():
                            noCalJobs = noCalJobs,
                            soCalJobs = soCalJobs,
                            remoteJobs = remoteJobs,
+                           internJobs = internJobs,
                            lastUpdate = lastUpdate())
 
 
@@ -90,6 +99,7 @@ def browse_cities_by_month(year = 0, month = 0):
                 join(City).\
                 filter(Job.month == month).\
                 filter(Job.year == year).\
+                filter(City.country != '_intern_').\
                 group_by(City.name).\
                 order_by(desc('noJobs')).all()
 
@@ -115,6 +125,7 @@ def browse_countries_by_month(year = 0, month = 0):
                 join(City).\
                 filter(Job.month == month).\
                 filter(Job.year == year).\
+                filter(City.country != '_intern_').\
                 group_by(City.country).\
                 order_by(desc('noJobs')).all()
 
@@ -167,6 +178,7 @@ def all_cities():
     allCities = db.session.\
                 query(func.count(Job.description).label('noJobs'), City.name).\
                 join(City).\
+                filter(City.country != '_intern_').\
                 group_by(City.name).\
                 order_by(desc('noJobs')).all()
 
@@ -182,6 +194,7 @@ def all_countries():
     allCountries = db.session.\
                    query(func.count(Job.description).label('noJobs'), City.country).\
                    join(City).\
+                   filter(City.country != '_intern_').\
                    group_by(City.country).\
                    order_by(desc('noJobs')).all()
 
