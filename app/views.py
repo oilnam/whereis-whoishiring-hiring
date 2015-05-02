@@ -71,7 +71,7 @@ def index():
 
 
     return render_template('index.html',
-                           title = 'where is who is hiring? hiring?',
+                           title = u'where is who is hiring? hiring?',
                            lastMonth = lastMonth,
                            lastMonthName = mapMonthToName(lastMonth),
                            lastYear = lastYear,
@@ -106,7 +106,7 @@ def browse_cities_by_month(year = 0, month = 0):
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
     return render_template('browse_city_by_month.html',
-                           title = 'wwh? | {0}-{1}'.format(month, year),
+                           title = u'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
                            currentMonth = mapMonthToName(int(month)),
@@ -132,7 +132,7 @@ def browse_countries_by_month(year = 0, month = 0):
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
     return render_template('browse_country_by_month.html',
-                           title = 'wwh? | {0}-{1}'.format(month, year),
+                           title = u'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
                            currentMonth = mapMonthToName(int(month)),
@@ -148,8 +148,10 @@ def show_by_city(year, month, city):
            filter(Job.month == month).\
            filter(Job.year == year).all()
 
+    ss = city
+
     return render_template('show_city.html',
-                           title = 'wwh? | {0} | {1}-{2}'.format(city, month, year),
+                           title = u'wwh? | {0} | {1}-{2}'.format(city, month, year),
                            city = city,
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)))
@@ -165,7 +167,7 @@ def show_by_country(year, month, country):
            filter(Job.year == year).all()
 
     return render_template('show_country.html',
-                           title = 'wwh? | {0} | {1}-{2}'.format(country, month, year), 
+                           title = u'wwh? | {0} | {1}-{2}'.format(country, month, year), 
                            country = country,
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)))
@@ -183,7 +185,7 @@ def all_cities():
                 order_by(desc('noJobs')).all()
 
     return render_template('all_cities.html',
-                           title = 'wwh? | all cities',
+                           title = u'wwh? | all cities',
                            allCities = allCities)
 
 
@@ -199,7 +201,7 @@ def all_countries():
                    order_by(desc('noJobs')).all()
 
     return render_template('all_countries.html',
-                           title = 'wwh? | all countries',
+                           title = u'wwh? | all countries',
                            allCountries = allCountries)
 
 
@@ -207,7 +209,7 @@ def all_countries():
 @app.cache.cached(timeout=500)
 def faq():
     
-    return render_template('faq.html', title = 'wwh? | faq')
+    return render_template('faq.html', title = u'wwh? | faq')
 
 
 @app.route('/europe/<year>/<month>')
@@ -222,7 +224,7 @@ def show_europe(year, month):
            group_by(Job.hn_id).all()
 
     return render_template('show_region.html',
-                           title = 'wwh? | Europe | {0}-{1}'.format(month, year),
+                           title = u'wwh? | Europe | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)),
                            region = 'Europe')
@@ -241,7 +243,7 @@ def show_seasia(year, month):
 
 
     return render_template('show_region.html',
-                           title = 'wwh? | SE Asia | {0}-{1}'.format(month, year),
+                           title = u'wwh? | SE Asia | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)),
                            region = 'SE Asia')
@@ -259,7 +261,7 @@ def show_nocal(year, month):
            group_by(Job.hn_id).all()
 
     return render_template('show_region.html',
-                           title = 'wwh? | NO Cal | {0}-{1}'.format(month, year),
+                           title = u'wwh? | NO Cal | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)),
                            region = 'Northern California')
@@ -277,7 +279,7 @@ def show_socal(year, month):
            group_by(Job.hn_id).all()
 
     return render_template('show_region.html',
-                           title = 'wwh? | SO Cal | {0}-{1}'.format(month, year),
+                           title = u'wwh? | SO Cal | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)),
                            region = 'Southern California')
