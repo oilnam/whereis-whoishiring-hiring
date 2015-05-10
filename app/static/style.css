@@ -23,9 +23,7 @@
 
 .job-splitter {
     text-align: center;
-    font-weight: bold;
-    color: #2562dc;
-    padding-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .totalJobsHeadline { margin-bottom: 30px; }
@@ -72,3 +70,8 @@ ol li {
 }
 
 .new { color: #FF00FF; }
+
+.originalPost {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
