@@ -105,12 +105,14 @@ def browse_cities_by_month(year = 0, month = 0):
 
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
-    return render_template('browse_city_by_month.html',
+    return render_template('browse_by_month.html',
                            title = u'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
                            currentMonth = mapMonthToName(int(month)),
-                           year = year, month = month)
+                           year = year, month = month,
+                           menuLink = 'country',
+                           internalLink = 'city')
 
 
 @app.route('/country/<year>/<month>')
@@ -131,12 +133,14 @@ def browse_countries_by_month(year = 0, month = 0):
 
     jobsNo = Job.query.filter_by(year = year, month = month).count()
 
-    return render_template('browse_country_by_month.html',
+    return render_template('browse_by_month.html',
                            title = u'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
                            currentMonth = mapMonthToName(int(month)),
-                           year = year, month = month)
+                           year = year, month = month,
+                           menuLink = 'city',
+                           internalLink = 'country')
 
 
 @app.route('/city/<year>/<month>/<city>')
@@ -148,11 +152,9 @@ def show_by_city(year, month, city):
            filter(Job.month == month).\
            filter(Job.year == year).all()
 
-    ss = city
-
-    return render_template('show_city.html',
+    return render_template('show_place.html',
                            title = u'wwh? | {0} | {1}-{2}'.format(city, month, year),
-                           city = city,
+                           place = city,
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)))
 
@@ -166,11 +168,83 @@ def show_by_country(year, month, country):
            filter(Job.month == month).\
            filter(Job.year == year).all()
 
-    return render_template('show_country.html',
+    return render_template('show_place.html',
                            title = u'wwh? | {0} | {1}-{2}'.format(country, month, year), 
-                           country = country,
+                           place = country,
                            jobs = jobs, year = year,
                            month = mapMonthToName(int(month)))
+
+
+@app.route('/europe/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_europe(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.country.in_(db.session.query(Europe.country))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+    return render_template('show_place.html',
+                           title = u'wwh? | Europe | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           place = 'Europe')
+
+
+@app.route('/seasia/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_seasia(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.country.in_(db.session.query(SEAsia.country))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+    return render_template('show_place.html',
+                           title = u'wwh? | SE Asia | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           place = 'SE Asia')
+
+
+@app.route('/nocal/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_nocal(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.name.in_(db.session.query(noCal.city))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+    return render_template('show_place.html',
+                           title = u'wwh? | NO Cal | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           place = 'Northern California')
+
+
+@app.route('/socal/<year>/<month>')
+@app.cache.cached(timeout=500)
+def show_socal(year, month):
+
+    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
+           join(City).\
+           filter(City.name.in_(db.session.query(soCal.city))).\
+           filter(Job.month == month).\
+           filter(Job.year == year).\
+           group_by(Job.hn_id).all()
+
+    return render_template('show_place.html',
+                           title = u'wwh? | SO Cal | {0}-{1}'.format(month, year),
+                           jobs = jobs, year = year,
+                           month = mapMonthToName(int(month)),
+                           place = 'Southern California')
 
 
 @app.route('/all/cities')
@@ -210,77 +284,3 @@ def all_countries():
 def faq():
     
     return render_template('faq.html', title = u'wwh? | faq')
-
-
-@app.route('/europe/<year>/<month>')
-@app.cache.cached(timeout=500)
-def show_europe(year, month):
-
-    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
-           join(City).\
-           filter(City.country.in_(db.session.query(Europe.country))).\
-           filter(Job.month == month).\
-           filter(Job.year == year).\
-           group_by(Job.hn_id).all()
-
-    return render_template('show_region.html',
-                           title = u'wwh? | Europe | {0}-{1}'.format(month, year),
-                           jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
-                           region = 'Europe')
-
-
-@app.route('/seasia/<year>/<month>')
-@app.cache.cached(timeout=500)
-def show_seasia(year, month):
-
-    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
-           join(City).\
-           filter(City.country.in_(db.session.query(SEAsia.country))).\
-           filter(Job.month == month).\
-           filter(Job.year == year).\
-           group_by(Job.hn_id).all()
-
-
-    return render_template('show_region.html',
-                           title = u'wwh? | SE Asia | {0}-{1}'.format(month, year),
-                           jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
-                           region = 'SE Asia')
-
-
-@app.route('/nocal/<year>/<month>')
-@app.cache.cached(timeout=500)
-def show_nocal(year, month):
-
-    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
-           join(City).\
-           filter(City.name.in_(db.session.query(noCal.city))).\
-           filter(Job.month == month).\
-           filter(Job.year == year).\
-           group_by(Job.hn_id).all()
-
-    return render_template('show_region.html',
-                           title = u'wwh? | NO Cal | {0}-{1}'.format(month, year),
-                           jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
-                           region = 'Northern California')
-
-
-@app.route('/socal/<year>/<month>')
-@app.cache.cached(timeout=500)
-def show_socal(year, month):
-
-    jobs = db.session.query(Job.description, Job.id, Job.hn_id).\
-           join(City).\
-           filter(City.name.in_(db.session.query(soCal.city))).\
-           filter(Job.month == month).\
-           filter(Job.year == year).\
-           group_by(Job.hn_id).all()
-
-    return render_template('show_region.html',
-                           title = u'wwh? | SO Cal | {0}-{1}'.format(month, year),
-                           jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
-                           region = 'Southern California')
-
