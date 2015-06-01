@@ -91,7 +91,7 @@ def importComments(content):
 
 def main():
     
-    url = 'https://news.ycombinator.com/item?id=9471287'
+    url = 'https://news.ycombinator.com/item?id=10311580'
     r = requests.get(url)
     if r.status_code == 200:
         importComments(r.text)
