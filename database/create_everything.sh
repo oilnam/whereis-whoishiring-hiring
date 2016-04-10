@@ -2,6 +2,8 @@
 
 rm -f ../app.db
 
-python createDB.py
-python indexCities.py
+python init_db.py
+python index_cities.py
+python full_hn_reindex.py
 sqlite3 ../app.db < refine_db.sql
+
