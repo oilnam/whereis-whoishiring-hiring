@@ -29,19 +29,28 @@ def get_whoishiring_submissions():
 	return thread_ids
 
 
-def process_page(page_id):
+def process_page(page_id, update=False):
 	print('processing page {}'.format(page_id))
 	r = requests.get('https://news.ycombinator.com/item?id={}'.format(page_id))
 	s = bs(r.text)
 	try:
 		month, year = extract_month_and_year(s)
+		if update:
+			delete_jobs(month, year)
 		jobs = extract_jobs_from_page(s)
 		save_city_given_list_of_posts(jobs, month, year)
 	except ValueError:
 		print('skipping {}'.format(page_id))
 		return # not a monthly who is hiring thread, skip it
 		
+
+def delete_jobs(month, year):
+	print('deleting jobs for {0} {1}'.format(month, year))
+	jobs = Job.query.filter(Job.month == month).filter(Job.year == year).all()
+	for j in jobs:
+		db.session.delete(j)
  
+
 def extract_month_and_year(s):
 	t = s.title.get_text()
 	title = t[t.index('(')+1:t.index(')')].split(' ')
