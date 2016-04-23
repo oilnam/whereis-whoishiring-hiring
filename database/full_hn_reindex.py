@@ -37,15 +37,14 @@ def process_page(page_id, update=False, localPage=None):
     else:
         r = requests.get('https://news.ycombinator.com/item?id={}'.format(page_id))
         s = bs(r.text)
-    try:
-        month, year = extract_month_and_year(s)
-        if update:
-            delete_jobs(month, year)
-        jobs = extract_jobs_from_page(s)
-        save_city_given_list_of_posts(jobs, month, year)
-    except ValueError:
+    month, year = extract_month_and_year(s)
+    if not year:
         print('skipping {}'.format(page_id))
         return # not a monthly who is hiring thread, skip it
+    if update:
+        delete_jobs(month, year)
+    jobs = extract_jobs_from_page(s)
+    save_city_given_list_of_posts(jobs, month, year)
 
 
 def delete_jobs(month, year):
@@ -56,10 +55,13 @@ def delete_jobs(month, year):
 
 
 def extract_month_and_year(s):
-    t = s.title.get_text()
-    title = t[t.index('(')+1:t.index(')')].split(' ')
-    month = month_to_number(title[0][:3])
-    return (month, title[1])
+    try:
+        t = s.title.get_text()
+        title = t[t.index('(')+1:t.index(')')].split(' ')
+        month = month_to_number(title[0][:3])
+        return (month, title[1])
+    except ValueError:
+        return (None, None)
 
 
 def month_to_number(month):
