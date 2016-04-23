@@ -620,7 +620,6 @@ Mwanza,Tanzania
 "Mérida",Mexico
 "N'Djamena",Chad
 "NEW YORK","United States"
-"NO REMOTE",_remote_
 "NY, NY","United States"
 NYC,"United States"
 Nagoya,Japan
@@ -657,7 +656,6 @@ Niamey,Niger
 "Nice, France",France
 Nicosia,Cyprus
 "Nizhny Novgorod",Russia
-"No Remote",_remote_
 "No internships",_intern_
 Nord,Denmark
 Norilsk,Russia
@@ -773,8 +771,6 @@ Qingdao,China
 Quetzaltenango,Guatemala
 "Quezon City",Philippines
 Quito,Ecuador
-REMOTE,REMOTE
-"REMOTE no",_remote_
 Rabat,Morocco
 "Rabi Island",Fiji
 Raleigh,"United States"
@@ -784,8 +780,6 @@ Recife,Brazil
 Redmond,"United States"
 Redwood,"United States"
 Regina,Canada
-Remote,_remote_
-"Remote not",_remote_
 Reno,"United States"
 "Reykjavík",Iceland
 "Ribeirão Preto",Brazil
