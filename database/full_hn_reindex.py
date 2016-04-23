@@ -29,10 +29,14 @@ def get_whoishiring_submissions():
     return thread_ids
 
 
-def process_page(page_id, update=False):
+def process_page(page_id, update=False, localPage=None):
     print('processing page {}'.format(page_id))
-    r = requests.get('https://news.ycombinator.com/item?id={}'.format(page_id))
-    s = bs(r.text)
+    if localPage:
+        page = open(localPage, 'r')
+        s = bs(page)
+    else:
+        r = requests.get('https://news.ycombinator.com/item?id={}'.format(page_id))
+        s = bs(r.text)
     try:
         month, year = extract_month_and_year(s)
         if update:
@@ -71,15 +75,15 @@ def extract_jobs_from_page(s):
         # check the post is not a reply
         if content.find(lambda tag : tag.name == 'img' and int(tag['width']) == 0):
             plain_text = content.find('span', class_ = 'comment').get_text()
-        try:
-            hn_id = content.findAll('a')[2]['href'].split('=')[1]
-            extracted_jobs_and_hn_ids.append((content, plain_text, hn_id))
-        except IndexError:
-            continue # the post has been removed, skip it
+            try:
+                hn_id = content.findAll('a')[2]['href'].split('=')[1]
+                extracted_jobs_and_hn_ids.append((content, plain_text, hn_id))
+            except IndexError:
+                continue # the post has been removed, skip it
     return extracted_jobs_and_hn_ids
 
 
-def save_city_given_list_of_posts(posts, month, year): 
+def save_city_given_list_of_posts(posts, month, year):
     all_cities = { city : id for (city, id) in db.session.query(City.name, City.id).all() }
     unmatched_jobs = []
     # posts is a list of tuples (html_post, plain_post, hackernews_hd)
