@@ -76,10 +76,11 @@ def extract_jobs_from_page(s):
         content = post.find('tr')
         # check the post is not a reply
         if content.find(lambda tag : tag.name == 'img' and int(tag['width']) == 0):
-            plain_text = content.find('span', class_ = 'comment').get_text()
+            html_post = content.find('span', class_ = 'comment')
+            plain_text = html_post.get_text()
             try:
                 hn_id = content.findAll('a')[2]['href'].split('=')[1]
-                extracted_jobs_and_hn_ids.append((content, plain_text, hn_id))
+                extracted_jobs_and_hn_ids.append((html_post, plain_text, hn_id))
             except IndexError:
                 continue # the post has been removed, skip it
     return extracted_jobs_and_hn_ids
@@ -104,6 +105,8 @@ def save_city_given_list_of_posts(posts, month, year):
     db.session.commit()
     db.session.close()
 
+    if not os.path.exists('debug'):
+        os.makedirs('debug')
     with open('debug/no_matches-{0}-{1}.txt'.format(month, year), 'w') as f:
         for (job, hn_id) in unmatched_jobs:
             f.write(hn_id)

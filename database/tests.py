@@ -50,14 +50,14 @@ class IndexJobs(BaseTestCase):
         subprocess.call('sqlite3 ../test.db < refine_db.sql', shell=True)
 
         # check cities
-        assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1072
+        assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1067
         assert Job.query.join(City).filter(City.name == u'REMOTE', Job.month == 07, Job.year == 2015).count() == 101
         assert Job.query.join(City).filter(City.name == u'San Francisco', Job.month == 07, Job.year == 2015).count() == 194
         assert Job.query.join(City).filter(City.name == u'London', Job.month == 07, Job.year == 2015).count() == 64
         assert Job.query.join(City).filter(City.name == u'Zurich', Job.month == 07, Job.year == 2015).count() == 5
 
         # check countries
-        assert Job.query.join(City).filter(City.country == u'United States', Job.month == 07, Job.year == 2015).count() == 700
+        assert Job.query.join(City).filter(City.country == u'United States', Job.month == 07, Job.year == 2015).count() == 698
         assert Job.query.join(City).filter(City.country == u'United Kingdom', Job.month == 07, Job.year == 2015).count() == 78
         assert Job.query.join(City).filter(City.country == u'Singapore', Job.month == 07, Job.year == 2015).count() == 7
 
@@ -66,17 +66,16 @@ class IndexJobs(BaseTestCase):
         subprocess.call('sqlite3 ../test.db < refine_db.sql', shell=True)
 
         # check cities
-        assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1072
+        assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1067
         assert Job.query.join(City).filter(City.name == u'REMOTE', Job.month == 07, Job.year == 2015).count() == 101
         assert Job.query.join(City).filter(City.name == u'San Francisco', Job.month == 07, Job.year == 2015).count() == 194
         assert Job.query.join(City).filter(City.name == u'London', Job.month == 07, Job.year == 2015).count() == 64
         assert Job.query.join(City).filter(City.name == u'Zurich', Job.month == 07, Job.year == 2015).count() == 5
 
         # check countries
-        assert Job.query.join(City).filter(City.country == u'United States', Job.month == 07, Job.year == 2015).count() == 700
+        assert Job.query.join(City).filter(City.country == u'United States', Job.month == 07, Job.year == 2015).count() == 698
         assert Job.query.join(City).filter(City.country == u'United Kingdom', Job.month == 07, Job.year == 2015).count() == 78
         assert Job.query.join(City).filter(City.country == u'Singapore', Job.month == 07, Job.year == 2015).count() == 7
-
 
 if __name__ == '__main__':
     unittest.main()
