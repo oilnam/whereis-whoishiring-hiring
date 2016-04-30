@@ -11,8 +11,8 @@ from errors import not_found_error, internal_error
 def index():
 
     # harcoded variables; to be replaced when auto-update will be ready
-    lastMonth = 10
-    lastYear = 2015
+    lastMonth = 4
+    lastYear = 2016
     totalJobs = Job.query.count()
 
     top12cities = db.session.\
