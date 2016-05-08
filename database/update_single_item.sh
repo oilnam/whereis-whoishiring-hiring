@@ -13,13 +13,13 @@ if [ $# -ne "2" ]; then
     exit 1
 fi
 
-python single_hn_reindex.py $1
+python src/single_hn_reindex.py $1
 
 if [ $2 = "sqlite" ]; then
-    sqlite3 ../app.db < refine_db.sql
+    sqlite3 ../app.db < src/refine_db.sql
 fi
 
 if [ $2 = "mysql" ]; then
-    mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD < refine_db.sql
+    mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD < src/refine_db.sql
 fi
 

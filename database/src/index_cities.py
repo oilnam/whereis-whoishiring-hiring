@@ -2,7 +2,7 @@ import os
 import sys
 import unicodecsv as csv
 
-dir = os.path.join(os.path.dirname(__file__), "..")
+dir = os.path.join(os.path.dirname(__file__), "../..")
 sys.path.append(dir)
 
 from app import db

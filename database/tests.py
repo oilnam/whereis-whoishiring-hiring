@@ -9,8 +9,8 @@ sys.path.append(dir)
 from app import app, db
 from app.models import City, Job
 
-from full_hn_reindex import process_page
-from index_cities import index_cities
+from src.full_hn_reindex import process_page
+from src.index_cities import index_cities
 
 
 class BaseTestCase(TestCase):
@@ -47,7 +47,7 @@ class IndexJobs(BaseTestCase):
         assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1158
 
         # manually refine the db
-        subprocess.call('sqlite3 ../test.db < refine_db.sql', shell=True)
+        subprocess.call('sqlite3 ../test.db < src/refine_db.sql', shell=True)
 
         # check cities
         assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1067
@@ -63,7 +63,7 @@ class IndexJobs(BaseTestCase):
 
         # update page; all the results should stay the same
         process_page('local test page', update=True, localPage='resources/pages/072015.html')
-        subprocess.call('sqlite3 ../test.db < refine_db.sql', shell=True)
+        subprocess.call('sqlite3 ../test.db < src/refine_db.sql', shell=True)
 
         # check cities
         assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1067

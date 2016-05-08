@@ -15,23 +15,24 @@ fi
 
 CREATE() {
     python tests.py
-    python init_db.py
-    python index_cities.py
-    python full_hn_reindex.py
+    python src/init_db.py
+    python src/index_cities.py
+    python src/full_hn_reindex.py
 }
 
 
 if [ $1 = "sqlite" ]; then
     rm -f ../app.db
     CREATE
-    sqlite3 ../app.db < refine_db.sql
+    sqlite3 ../app.db < src/refine_db.sql
 fi
 
 if [ $1 = "mysql" ]; then
     mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD -e "DROP TABLE job;"
     mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD -e "DROP TABLE city;"
     CREATE
-    mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD < refine_db.sql
+    mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD < src/refine_db.sql
+fi
 
 # touch a file to get last update time
 touch last_update

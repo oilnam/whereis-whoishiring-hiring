@@ -5,7 +5,7 @@ import requests
 import sys
 from time import sleep
 
-dir = os.path.join(os.path.dirname(__file__), "..")
+dir = os.path.join(os.path.dirname(__file__), "../..")
 sys.path.append(dir)
 from app import db
 from app.models import City, Job
