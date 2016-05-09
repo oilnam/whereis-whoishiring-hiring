@@ -23,3 +23,4 @@ if [ $2 = "mysql" ]; then
     mysql $MYSQL_DB -u $MYSQL_USR --password=$MYSQL_PWD < src/refine_db.sql
 fi
 
+touch last_update

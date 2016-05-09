@@ -29,10 +29,9 @@ def mapMonthToName(n):
 
 
 def lastUpdate():
-
     try:
-        t = os.path.getmtime('build-DB/last_update')
+        t = os.path.getmtime('database/last_update')
         return time.strftime("%b %d %Y at %H:%M UTC", time.gmtime(t))
-    except:
+    except OSError:
         return 'unknown'
 
