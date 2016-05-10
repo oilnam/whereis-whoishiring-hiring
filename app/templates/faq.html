@@ -7,75 +7,22 @@
     <h3>What is this thing?</h3>
     <p>
       This app is a wrapper for the monthly 
-      Hacker News' <a target="_blank" href="https://news.ycombinator.com/submitted?id=whoishiring">Who is hiring?</a> thread, 
-      with the job posts sorted by location. 
-      It is not affiliated with HN.
-      <b>@HR</b>: if you want your job offers to show up here
-      you have to submit them to the original thread.
-    </p>
-
-    <h3>Why did you build this, and who are you?</h3>
-    <p>
-      I'm a new grad, back from 7+ months of motorbiking solo through SE Asia.
-      Being the travel addict that I am, as I was looking for a job as
-      a SDE I 
-      started to wander where in the world I wanted to go next.
-      Hacker News' <i>Who is hiring?</i> was obviously my go-to place, but the UI is so not 
-      pretty, right?
-    </p>
-    <p>
-      Anyway, I'd love to have some general feedback:
-      bug reports, suggestions and alike are
-      all welcome. Drop me an <a target="_blank" href="mailto:manlio.poltronieri@gmail.com">
-	email</a> -
-      you can find my GPG key <a target="blank" href="https://pgp.mit.edu/pks/lookup?op=vindex&search=0x6625D8AF623EF208">here</a>.
+      Hacker News' <a target="_blank" href="https://news.ycombinator.com/submitted?id=whoishiring">Who is hiring?</a> thread. 
+      It is not affiliated with YCombinator, I don't make a single cent for running it, etc. etc. I built it for myself, and then
+      people <a href="https://news.ycombinator.com/item?id=9348193">found it useful</a> so that's it.
     </p>
 
     <h3>Is the code on Github?</h3>
     <p>
       Sure! For both the website and the database. Check it out
-      <a target ="blank" href="https://github.com/oilnam/whereis-whoishiring-hiring">here</a>.
+      <a target ="blank" href="https://github.com/oilnam/whereis-whoishiring-hiring">here</a>. PRs are welcome.
     </p>
 
-    <h3>What's up with the special keywords? They're all wrong!</h3>
+    <h3>How can I contact you?</h3>
     <p>
-      Right, so I'm experimenting a bit with macro areas lately.
-      Defining "Europe" or "South East Asia" was pretty
-      straightforward; defining "Northern California" much less so,
-      but it's kinda cool so I'll give it a shot nonetheless.
-      I put together an initial list of cities that you can check out
-      <a href="https://github.com/oilnam/whereis-whoishiring-hiring/blob/master/build-DB/importCities.py"
-      target="_blank">here</a> but I'm still very open about it;
-      if you feel like something is wrong/misplaced/missing, please do
-      contact me. I'm also down for adding more macro-areas in the
-      future. Suggestions?
-      
-    </p>
-
-    <h3>Is there an API?</h3>
-    <p>
-      Not yet, but I'm working on it :) <br>
-      In the meantime, you can easily build your own local Sqlite copy
-      of the database; check out the 
-      <a href="https://github.com/oilnam/whereis-whoishiring-hiring/blob/master/README.md"
-      target="_blank">README</a> for further instructions.
-      
-    <h3>How frequently is the database updated?</h3>
-    <p>
-      Starting next month (May) the site will probably auto-update live
-      every 15 minutes or something from the moment the new post hits
-      the front page. I have most of the code ready but I still need to
-      write tests.
-      I was getting a lot of stuff done, and then Tinder. Ouch.
-    </p>
-
-    <h3>Why is xyz city not showing up?</h3>
-    <p>
-      To speed up the db indexing I decided to start with a fairly
-      small set of cities (~1k) and then to manually augment the city
-      table every time a post didn't match any city (yeah that was a 
-      pretty boring monkey job); therefore it can happen that a fairly
-      small city is not in the db yet. Drop me an email and I'll add it. 
+      PRs, bug reports, suggestions and so on all welcome. Drop me an <a target="_blank" href="mailto:manlio.poltronieri@gmail.com">
+	email</a> - and if you're into that kind of things,
+      you can find my GPG key <a target="blank" href="https://pgp.mit.edu/pks/lookup?op=vindex&search=0x6625D8AF623EF208">here</a>.
     </p>
 
     <h3>What is the stack behind <i>wwh?</i> ?</h3>
