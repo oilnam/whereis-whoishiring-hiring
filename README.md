@@ -1,39 +1,48 @@
 # Where is Who is hiring? hiring?
 
-This repo contains:
- 1. The source code to the site http://whereis-whoishiring-hiring.me (Flask codebase)
- 2. The scripts to scrape Hacker News' "Who is hiring?" posts and create the database behind the website.
- 
-You can find a list of FAQ about the website here: http://whereis-whoishiring-hiring.me/faq
+Overview
+--------
 
-If you want build your own copy from scratch (maybe you want to
-twist it a bit?), keep reading.
+This repo contains:
+ 1. The code for the site http://whereis-whoishiring-hiring.me, under `app`; and
+ 2. The code to scrape Hacker News' [_Who is hiring?_](https://news.ycombinator.com/user?id=whoishiring) posts and create the database that powers the website, under `database`.
+ 
+You can find a list of FAQ about the project here: http://whereis-whoishiring-hiring.me/faq
 
 Building the database
 ---------------------
-Everything needed to build the db can be found in `build-DB`. It is easy to single out these scripts from the website and use them as a stand-alone app. Anyway, to build the whole thing:
 
-    $ git clone https://github.com/oilnam/whereis-whoishiring-hiring.git
-    $ cd whereis-whoishiring-hiring
-    $ pip install -r requirements
-    $ cd build-DB
-    $ ./build_db.sh <sqlite> or <mysql>
+You can either use both Sqlite and MySQL; for the latter, you'll have to stick your password in both `config.py`, `create_everything.sh` and `update_single_item.sh`. Sqlite should just work. (yay!)
 
-The main building script `build_db.sh` is pretty self explanatory; anyhow, this is what you might want to know:
+#### Create the database from scratch
 
- - you can either use Sqlite or MySQL; if you go for the latter, you have to fill in db name/user/passwd at the top of the script.
- - you have to comment/uncomment the `download_pages` function to wget a copy of the "Who is hiring?" pages from HN, as well as a list of cities from Wikipedia. Usually, you want to download them the first time and then comment the line out.
+Clone the repo and install the requirements; then:
+
+    $ cd database
+    $ ./create_everything.sh <sqlite | mysql>
+
+#### Update the database with a single HN post
+
+    $ cd database
+    $ ./upadte_single_item.sh <hn post id> <sqlite | mysql>
+
+#### Run the tests
+
+    $ cd database
+    $ python tests.py
  
-`build_db.sh` is a wrapper that runs the following:
+Running the web app
+-------------------
 
- - `importCities.py` gets a list of cities from
-   [Wikipedia](http://en.wikipedia.org/wiki/List_of_cities_by_longitude),
-   plus many more hand-picked by me.
-   The macro areas are also defined here.
- - `importHN.py` processes all "Who is hiring?" pages found in `hn-pages`. 
- - `refine_db.sql` contains a bunch of SQL queries used to refine the db.
+    $ python run.py
 
-Be careful that the script *drops* all the tables every time you run it. To give some reference, building the db from scratch takes less then half a minute on my MacbookPro. 
+The webapp is trivial enough that no tests are necessary for now.
+
+Contributing
+------------
+PRs are more than welcome! :) There's a ton of work that could be done, from tidying up the code to implementing new features. I have few ideas but I lack time. If you want to contribute, drop me a line or go ahead and open a PR.
+
+Mandatory boring disclaimer: this stuff is not affiliated with YCombinator, I don't make a single cent for running it etc etc.
 
 Authors
 -------
