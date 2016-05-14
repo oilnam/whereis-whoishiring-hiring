@@ -43,7 +43,7 @@ class IndexJobs(BaseTestCase):
         # process a random HN page without blowing up
         process_page(7829033)
 
-        process_page('local test page', update=False, localPage='resources/pages/072015.html')
+        process_page('local test page', update=False, localPage='resources/pages/072015.txt')
         assert Job.query.filter(Job.month == 07, Job.year == 2015).count() == 1158
 
         # manually refine the db
@@ -62,7 +62,7 @@ class IndexJobs(BaseTestCase):
         assert Job.query.join(City).filter(City.country == u'Singapore', Job.month == 07, Job.year == 2015).count() == 7
 
         # update page; all the results should stay the same
-        process_page('local test page', update=True, localPage='resources/pages/072015.html')
+        process_page('local test page', update=True, localPage='resources/pages/072015.txt')
         subprocess.call('sqlite3 ../test.db < src/refine_db.sql', shell=True)
 
         # check cities
