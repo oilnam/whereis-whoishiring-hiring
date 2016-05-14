@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, redirect, url_for
 from sqlalchemy import func, desc
 from models import City, Europe, Job, SEAsia, noCal, soCal
-from helpers import magic, mapMonthToName, lastUpdate
+from helpers import magic, month_to_name, last_db_update
 from errors import not_found_error, internal_error
 
 @app.route('/')
@@ -73,7 +73,7 @@ def index():
     return render_template('index.html',
                            title = u'where is who is hiring? hiring?',
                            lastMonth = lastMonth,
-                           lastMonthName = mapMonthToName(lastMonth),
+                           lastMonthName = month_to_name(lastMonth),
                            lastYear = lastYear,
                            top12cities = top12cities,
                            top12countries = top12countries,
@@ -84,7 +84,7 @@ def index():
                            soCalJobs = soCalJobs,
                            remoteJobs = remoteJobs,
                            internJobs = internJobs,
-                           lastUpdate = lastUpdate())
+                           lastUpdate = last_db_update())
 
 
 @app.route('/city/<year>/<month>')
@@ -109,7 +109,7 @@ def browse_cities_by_month(year = 0, month = 0):
                            title = u'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
-                           currentMonth = mapMonthToName(int(month)),
+                           currentMonth = month_to_name(int(month)),
                            year = year, month = month,
                            menuLink = 'country',
                            internalLink = 'city')
@@ -137,7 +137,7 @@ def browse_countries_by_month(year = 0, month = 0):
                            title = u'wwh? | {0}-{1}'.format(month, year),
                            totalRank = magic(totalRank, []),
                            jobsNo = jobsNo,
-                           currentMonth = mapMonthToName(int(month)),
+                           currentMonth = month_to_name(int(month)),
                            year = year, month = month,
                            menuLink = 'city',
                            internalLink = 'country')
@@ -156,7 +156,7 @@ def show_by_city(year, month, city):
                            title = u'wwh? | {0} | {1}-{2}'.format(city, month, year),
                            place = city,
                            jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)))
+                           month = month_to_name(int(month)))
 
 
 @app.route('/country/<year>/<month>/<country>')
@@ -169,10 +169,10 @@ def show_by_country(year, month, country):
            filter(Job.year == year).all()
 
     return render_template('show_place.html',
-                           title = u'wwh? | {0} | {1}-{2}'.format(country, month, year), 
+                           title = u'wwh? | {0} | {1}-{2}'.format(country, month, year),
                            place = country,
                            jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)))
+                           month = month_to_name(int(month)))
 
 
 @app.route('/europe/<year>/<month>')
@@ -189,7 +189,7 @@ def show_europe(year, month):
     return render_template('show_place.html',
                            title = u'wwh? | Europe | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
+                           month = month_to_name(int(month)),
                            place = 'Europe')
 
 
@@ -207,7 +207,7 @@ def show_seasia(year, month):
     return render_template('show_place.html',
                            title = u'wwh? | SE Asia | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
+                           month = month_to_name(int(month)),
                            place = 'SE Asia')
 
 
@@ -225,7 +225,7 @@ def show_nocal(year, month):
     return render_template('show_place.html',
                            title = u'wwh? | NO Cal | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
+                           month = month_to_name(int(month)),
                            place = 'Northern California')
 
 
@@ -243,7 +243,7 @@ def show_socal(year, month):
     return render_template('show_place.html',
                            title = u'wwh? | SO Cal | {0}-{1}'.format(month, year),
                            jobs = jobs, year = year,
-                           month = mapMonthToName(int(month)),
+                           month = month_to_name(int(month)),
                            place = 'Southern California')
 
 
@@ -282,5 +282,5 @@ def all_countries():
 @app.route('/faq')
 @app.cache.cached(timeout=500)
 def faq():
-    
+
     return render_template('faq.html', title = u'wwh? | faq')
