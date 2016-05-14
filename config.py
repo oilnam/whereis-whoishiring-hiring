@@ -1,13 +1,14 @@
 import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 class BaseConfiguration(object):
-    basedir = os.path.abspath(os.path.dirname(__file__))
 
     # sqlite
-    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 
     # mysql
-    SQLALCHEMY_DATABASE_URI = 'mysql://whoishiring:your-passwd-here@localhost/whoishiring'
+    # SQLALCHEMY_DATABASE_URI = 'mysql://whoishiring:your-passwd-here@localhost/whoishiring'
 
     DEBUG = False
     SECRET_KEY = 'iwhishyouwherehere'
@@ -15,4 +16,4 @@ class BaseConfiguration(object):
 
 class TestConfiguration(BaseConfiguration):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'test.db')
