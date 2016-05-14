@@ -1,4 +1,5 @@
 import bisect
+from datetime import date
 import time
 import os
 
@@ -34,4 +35,16 @@ def last_db_update():
         return time.strftime("%b %d %Y at %H:%M UTC", time.gmtime(t))
     except OSError:
         return 'unknown'
+
+
+def get_frontpage_month_and_year():
+    """ get the month and year to be displayed in the front page from
+        a local file that looks like: 'month-year', e.g. 5-2016
+    """
+    try:
+        with open('frontpage_month_and_year.txt', 'r') as f:
+            (month, year) = f.readline().strip('\n').split('-')
+            return month, year
+    except (IOError, AttributeError):
+        return date.today().month, date.today().year
 

@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, redirect, url_for
 from sqlalchemy import func, desc
 from models import City, Europe, Job, SEAsia, noCal, soCal
-from helpers import magic, month_to_name, last_db_update
+from helpers import *
 from errors import not_found_error, internal_error
 
 @app.route('/')
@@ -10,9 +10,7 @@ from errors import not_found_error, internal_error
 @app.cache.cached(timeout=500)
 def index():
 
-    # harcoded variables; to be replaced when auto-update will be ready
-    lastMonth = 4
-    lastYear = 2016
+    lastMonth, lastYear = get_frontpage_month_and_year()
     totalJobs = Job.query.count()
 
     top12cities = db.session.\
